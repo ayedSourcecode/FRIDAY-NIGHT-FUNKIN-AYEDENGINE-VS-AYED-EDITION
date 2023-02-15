@@ -480,7 +480,8 @@ class TitleState extends MusicBeatState
 			
 			if(pressedEnter)
 			{
-				titleText.color = FlxColor.WHITE;
+				// titleText.color = FlxColor.WHITE;
+				titleText.color = 0x1900FF;
 				titleText.alpha = 1;
 				
 				if(titleText != null) titleText.animation.play('press');
@@ -574,6 +575,7 @@ class TitleState extends MusicBeatState
 		{
 			var money:Alphabet = new Alphabet(0, 0, textArray[i], true);
 			money.screenCenter(X);
+			money.color = 0x1900FF;
 			money.y += (i * 60) + 200 + offset;
 			if(credGroup != null && textGroup != null) {
 				credGroup.add(money);
@@ -629,16 +631,20 @@ class TitleState extends MusicBeatState
 					FlxG.sound.music.fadeIn(4, 0, 0.7);
 				case 2:
 					#if PSYCH_WATERMARKS
-					createCoolText(['Psych Engine by'], 15);
+					createCoolText(['AYED ENGINE by'], 15);
 					#else
-					createCoolText(['ninjamuffin99', 'phantomArcade', 'kawaisprite', 'evilsk8er']);
+					createCoolText(['ayedFNFmaker', 'Ezra TigerYT', 'XxSussy Baka', 'NiterhaleReal']);
 					#end
 				// credTextShit.visible = true;
 				case 4:
 					#if PSYCH_WATERMARKS
-					addMoreText('Shadow Mario', 15);
-					addMoreText('RiverOaken', 15);
-					addMoreText('shubs', 15);
+					addMoreText('ayedFNFmaker', 15);
+					
+					addMoreText('Ezra TigerYT', 15
+					
+					addMoreText('XxSussyBaka', 15);
+					
+					addMoreText('NiterhaleReal', 15);
 					#else
 					addMoreText('present');
 					#end
@@ -651,12 +657,12 @@ class TitleState extends MusicBeatState
 				// credTextShit.screenCenter();
 				case 6:
 					#if PSYCH_WATERMARKS
-					createCoolText(['Not associated', 'with'], -40);
+					createCoolText(['YOOOOO', 'Play my mods'], -40);
 					#else
-					createCoolText(['In association', 'with'], -40);
+					createCoolText(['Thank you', 'X3'], -40);
 					#end
 				case 8:
-					addMoreText('newgrounds', -40);
+					addMoreText('AyedEngine', -40);
 					ngSpr.visible = true;
 				// credTextShit.text += '\nNewgrounds';
 				case 9:
@@ -678,13 +684,13 @@ class TitleState extends MusicBeatState
 				// credTextShit.text = "Friday";
 				// credTextShit.screenCenter();
 				case 14:
-					addMoreText('Friday');
+					addMoreText('VS');
 				// credTextShit.visible = true;
 				case 15:
-					addMoreText('Night');
+					addMoreText('AYED');
 				// credTextShit.text += '\nNight';
 				case 16:
-					addMoreText('Funkin'); // credTextShit.text += '\nFunkin';
+					addMoreText('EDITION'); // credTextShit.text += '\nFunkin';
 
 				case 17:
 					skipIntro();
