@@ -640,7 +640,7 @@ class TitleState extends MusicBeatState
 					#if PSYCH_WATERMARKS
 					addMoreText('ayedFNFmaker', 15);
 					
-					addMoreText('Ezra TigerYT', 15
+					addMoreText('Ezra TigerYT', 15);
 					
 					addMoreText('XxSussyBaka', 15);
 					
