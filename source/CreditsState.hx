@@ -99,7 +99,7 @@ class CreditsState extends MusicBeatState
 			['AsyPryo', 'AsyPryo', 'ARTIST', 'https://www.youtube.com/channel/UC_g6bbr9PoIGGalD4Cv5RwA', '00F3FF'],
 			[''],
 			['thanks for play'],
-			['YOU', 'YOU', 'thanks for playing my mods', '', 'FF1DE7'],
+			['YOU', 'YOU', 'thanks for playing my mods', 'https://www.youtube.com/watch?v=Wz_mLit3-wQ', 'FF1DE7'],
 			[''],
 			['------Discord-----'],
 			['', 'Discord', 'click to join', 'https://discord.gg/tMAwuMJx', '33A8FF'],
