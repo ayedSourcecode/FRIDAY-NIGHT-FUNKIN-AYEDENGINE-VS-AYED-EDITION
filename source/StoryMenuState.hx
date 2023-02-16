@@ -29,7 +29,8 @@ class StoryMenuState extends MusicBeatState
 
 	private static var lastDifficultyName:String = '';
 	var curDifficulty:Int = 1;
-
+	
+	var musicstory:FlxSound;
 	var txtWeekTitle:FlxText;
 	var bgSprite:FlxSprite;
 
@@ -46,6 +47,7 @@ class StoryMenuState extends MusicBeatState
 	var sprDifficulty:FlxSprite;
 	var leftArrow:FlxSprite;
 	var rightArrow:FlxSprite;
+	
 
 	var loadedWeeks:Array<WeekData> = [];
 
@@ -60,6 +62,7 @@ class StoryMenuState extends MusicBeatState
 		persistentUpdate = persistentDraw = true;
 
 		scoreText = new FlxText(10, 10, 0, "SCORE: 49324858", 36);
+		scoreText.color = 0x1900FF;
 		scoreText.setFormat("VCR OSD Mono", 32);
 
 		txtWeekTitle = new FlxText(FlxG.width * 0.7, 10, 0, "", 32);
@@ -125,6 +128,9 @@ class StoryMenuState extends MusicBeatState
 				num++;
 			}
 		}
+		musicstory = new FlxSound().loadEmbedded(Paths.music('MusicStoryMenu'), true);
+		musicstory.play();
+		FlxG.sound.list.add(musicstory);
 
 		WeekData.setDirectoryFromWeek(loadedWeeks[0]);
 		var charArray:Array<String> = loadedWeeks[0].weekCharacters;
@@ -263,8 +269,10 @@ class StoryMenuState extends MusicBeatState
 
 		if (controls.BACK && !movedBack && !selectedWeek)
 		{
+			musicstory.stop();
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			movedBack = true;
+			FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			MusicBeatState.switchState(new MainMenuState());
 		}
 
