@@ -248,6 +248,7 @@ class MainMenuState extends MusicBeatState
 						}
 						else
 						{
+							FlxTween.tween(FlxG.camera, {zoom: 2}, 1.6,{ease:FlxEase.expoInOut});
 							FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
 							{
 								var daChoice:String = optionShit[curSelected];
