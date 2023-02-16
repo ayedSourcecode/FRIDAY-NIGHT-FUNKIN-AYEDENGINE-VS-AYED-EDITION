@@ -63,6 +63,8 @@ class MainMenuState extends MusicBeatState
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 		debugKeys = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_1'));
+		
+		FlxG.mouse.visible = true;
 
 		camGame = new FlxCamera();
 		camAchievement = new FlxCamera();
@@ -138,16 +140,16 @@ class MainMenuState extends MusicBeatState
 		var versionShitA:FlxText = new FlxText(12, FlxG.height - 64, 0, "Vs Ayed EDITION V" + AyedVersion, 15);
 		versionShitA.color = 0x4677FF;
 		versionShitA.scrollFactor.set();
-		versionShitA.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionShitA.setFormat("VCR OSD Mono", 16, FlxColor.CYAN, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShitA);
 		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "Ayed Engine V" + AyedEngineVersion, 12);
 		versionShit.color = 0x1900FF;
 		versionShit.scrollFactor.set();
-		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.CYAN, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 		var versionShit:FlxText = new FlxText(12, FlxG.height - 24, 0, "Friday Night Funkin' v" + Application.current.meta.get('version'), 12);
 		versionShit.scrollFactor.set();
-		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.PINK, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 
 		// NG.core.calls.event.logEvent('swag').send();
@@ -212,7 +214,13 @@ class MainMenuState extends MusicBeatState
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				MusicBeatState.switchState(new TitleState());
 			}
-
+			if (FlxG.keys.justPressed.F7)
+			{
+				PlayState.SONG = Song.loadFromJson('HELL-ON', 'HELL-ON');
+				PlayState.isStoryMode = true;
+				LoadingState.loadAndSwitchState(new PlayState());
+			}
+			
 			if (controls.ACCEPT)
 			{
 				if (optionShit[curSelected] == 'donate')
