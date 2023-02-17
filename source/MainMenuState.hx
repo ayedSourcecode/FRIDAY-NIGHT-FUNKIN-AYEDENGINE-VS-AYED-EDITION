@@ -235,9 +235,9 @@ class MainMenuState extends MusicBeatState
 			
 			if (controls.ACCEPT)
 			{
-				if (optionShit[curSelected] == 'donate')
+				if (optionShit[curSelected] == 'Discord')
 				{
-					CoolUtil.browserLoad('https://ninja-muffin24.itch.io/funkin');
+					CoolUtil.browserLoad('https://discord.gg/tMAwuMJx');
 				}
 				else
 				{
