@@ -43,7 +43,8 @@ class MainMenuState extends MusicBeatState
 		//'Youtube',
 		'credits',
 		//#if !switch 'donate', #end
-		'options'
+		'options',
+		'Quit'
 	];
 
 	// var logo:FlxSprite;
@@ -238,6 +239,10 @@ class MainMenuState extends MusicBeatState
 				if (optionShit[curSelected] == 'Discord')
 				{
 					CoolUtil.browserLoad('https://discord.gg/tMAwuMJx');
+				}
+				if (optionShit[curSelected] == 'Quit')
+				{
+					Sys.exit(1);
 				}
 				else
 				{
