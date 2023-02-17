@@ -124,6 +124,7 @@ class FreeplayState extends MusicBeatState
 		for (i in 0...songs.length)
 		{
 			var songText:Alphabet = new Alphabet(90, 320, songs[i].songName, true);
+			songText.color = 0x0011FF;
 			songText.isMenuItem = true;
 			songText.targetY = i - curSelected;
 			grpSongs.add(songText);
@@ -150,6 +151,7 @@ class FreeplayState extends MusicBeatState
 		WeekData.setDirectoryFromWeek();
 
 		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
+		scoreText.color = 0x00FF37;
 		scoreText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
 
 		scoreBG = new FlxSprite(scoreText.x - 6, 0).makeGraphic(1, 66, 0x1900FF);
