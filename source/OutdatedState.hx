@@ -32,7 +32,7 @@ class OutdatedState extends MusicBeatState
 			\n
 			Thank you for download Ayed Engine!",
 			32);
-		warnText.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
+		warnText.setFormat("VCR OSD Mono", 32, FlxColor.BLUE, CENTER);
 		warnText.screenCenter(Y);
 		add(warnText);
 	}
