@@ -31,6 +31,7 @@ class OptionsState extends MusicBeatState
 {
 	var options:Array<String> = ['Note Colors', 'Controls', 'Adjust Delay and Combo', 'Graphics', 'Visuals and UI', 'Gameplay'];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
+	private var About:FlxText;
 	private static var curSelected:Int = 0;
 	public static var menuBG:FlxSprite;
 
@@ -59,7 +60,8 @@ class OptionsState extends MusicBeatState
 		DiscordClient.changePresence("Options Menu", null);
 		#end
 
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		var bg:FlxSprite = new FlxSprite();
+		bg.loadGraphic(Paths.image('menuOptions'));
 		bg.color = 0xFFea71fd;
 		bg.updateHitbox();
 
@@ -85,6 +87,12 @@ class OptionsState extends MusicBeatState
 
 		changeSelection();
 		ClientPrefs.saveSettings();
+		
+		About = new FlxText(0, 200, 0, "Here You can change you controls X3", 32, true);
+		About.color = 0x00AEFF;
+		// About.screenCenter();
+		// don't change it okay 
+		add(About);
 
 		super.create();
 	}
