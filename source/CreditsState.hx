@@ -95,6 +95,7 @@ class CreditsState extends MusicBeatState
 			[''],
 			['ARTIST'],
 			['NiterhaleReal', 'NiterhaleReal', 'ARTIST', 'https://www.youtube.com/@niterhalereal_offical', '9C00D2'],
+			['BK', 'BK', 'ARTIST', 'https://twitter.com/BK_reel', '33FF71'],
 			['Wastanky', 'Wastanky', 'BEST ARTIST', 'https://www.youtube.com/@WasTankyis_Stupid', 'FF00F7'],
 			['AsyPryo', 'AsyPryo', 'ARTIST', 'https://www.youtube.com/channel/UC_g6bbr9PoIGGalD4Cv5RwA', '00F3FF'],
 			[''],
