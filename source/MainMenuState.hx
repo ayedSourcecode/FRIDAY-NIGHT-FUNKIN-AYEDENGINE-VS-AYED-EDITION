@@ -46,7 +46,7 @@ class MainMenuState extends MusicBeatState
 		'options'
 	];
 
-	var logo:FlxSprite;
+	// var logo:FlxSprite;
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
 	var camFollowPos:FlxObject;
@@ -80,16 +80,16 @@ class MainMenuState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 		
-		logo = new FlxSprite(500, 0);
-		logo.frames = Paths.getSparrowAtlas('logoBumpin');
+		// logo = new FlxSprite(500, 0);
+		// logo.frames = Paths.getSparrowAtlas('logoBumpin');
 
-		logo.antialiasing = ClientPrefs.globalAntialiasing;
-		logo.animation.addByPrefix('bump', 'logo bumpin', 24, false);
-		logo.animation.play('bump');
-		logo.updateHitbox();
+		// logo.antialiasing = ClientPrefs.globalAntialiasing;
+		// logo.animation.addByPrefix('bump', 'logo bumpin', 24, false);
+		// logo.animation.play('bump');
+		// logo.updateHitbox();
 		// logoBl.screenCenter();
 		// logoBl.color = FlxColor.BLACK;
-		add(logo);
+		// add(logo);
 
 		var yScroll:Float = Math.max(0.25 - (0.05 * (optionShit.length - 4)), 0.1);
 		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menuBG'));
