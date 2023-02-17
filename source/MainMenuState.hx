@@ -78,7 +78,7 @@ class MainMenuState extends MusicBeatState
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
 
-		persistentUpdate = persistentDraw = true
+		persistentUpdate = persistentDraw = true;
 		
 		logo = new FlxSprite(500, 0);
 		logo.frames = Paths.getSparrowAtlas('logoBumpin');
