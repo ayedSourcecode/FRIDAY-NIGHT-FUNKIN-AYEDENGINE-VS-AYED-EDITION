@@ -229,7 +229,7 @@ class MainMenuState extends MusicBeatState
 			if (FlxG.keys.justPressed.F7)
 			{
 				PlayState.SONG = Song.loadFromJson('HELL-ON', 'HELL-ON');
-				PlayState.isStoryMode = true;
+				PlayState.isStoryMode = false;
 				LoadingState.loadAndSwitchState(new PlayState());
 			}
 			
