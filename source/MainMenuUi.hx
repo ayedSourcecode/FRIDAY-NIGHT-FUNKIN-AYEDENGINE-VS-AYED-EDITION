@@ -91,7 +91,7 @@ class MainMenuUi extends MainMenuState {
 		add(logo);
 
 		var yScroll:Float = Math.max(0.25 - (0.05 * (optionShit.length - 4)), 0.1);
-		var bg:FlxSprite = new FlxSprite(-80)
+		var bg:FlxSprite = new FlxSprite(-80);
 		bg.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLUE);
 		// bg.loadGraphic(Paths.image('menuBG'));
 		bg.scrollFactor.set(0, yScroll);
