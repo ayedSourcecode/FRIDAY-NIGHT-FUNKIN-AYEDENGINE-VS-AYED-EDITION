@@ -88,7 +88,7 @@ class OptionsState extends MusicBeatState
 		changeSelection();
 		ClientPrefs.saveSettings();
 		
-		About = new FlxText(0, 550, 0, "Here You can change you controls X3", 32, true);
+		About = new FlxText(0, 0, 0, "Here You can change you controls X3", 32, true);
 		About.color = 0x00AEFF;
 		// About.screenCenter();
 		// don't change it okay 
