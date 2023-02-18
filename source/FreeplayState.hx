@@ -368,6 +368,7 @@ class FreeplayState extends MusicBeatState
 
 		else if (accepted)
 		{
+			logoBl.color = FlxColor.PURPLE;
 			persistentUpdate = false;
 			var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
 			var poop:String = Highscore.formatSong(songLowercase, curDifficulty);
