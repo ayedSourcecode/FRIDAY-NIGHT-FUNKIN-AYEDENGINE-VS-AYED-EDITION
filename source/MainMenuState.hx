@@ -233,6 +233,11 @@ class MainMenuState extends MusicBeatState
 				PlayState.isStoryMode = false;
 				LoadingState.loadAndSwitchState(new PlayState());
 			}
+			if (FlxG.keys.justPressed.F10)
+			{
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				MusicBeatState.switchState(new MainMenuUi());
+			}
 			
 			if (controls.ACCEPT)
 			{
