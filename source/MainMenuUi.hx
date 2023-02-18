@@ -84,7 +84,7 @@ class MainMenuUi extends MusicBeatState
 		logo.frames = Paths.getSparrowAtlas('logoBumpin');
 
 		logo.antialiasing = ClientPrefs.globalAntialiasing;
-		logo.animation.addByPrefix('bump', 'logo bumpin', 24, true);
+		logo.animation.addByPrefix('bump', 'logo bumpin', 24, false);
 		logo.animation.play('bump');
 		logo.updateHitbox();
 		// logoBl.screenCenter();
