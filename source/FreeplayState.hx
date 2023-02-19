@@ -107,7 +107,7 @@ class FreeplayState extends MusicBeatState
 		add(bg);
 		bg.screenCenter();
 
-		logoBl = new FlxSprite(550, 0);
+		logoBl = new FlxSprite(450, 0);
 		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
 		
 		logoBl.antialiasing = ClientPrefs.globalAntialiasing;
