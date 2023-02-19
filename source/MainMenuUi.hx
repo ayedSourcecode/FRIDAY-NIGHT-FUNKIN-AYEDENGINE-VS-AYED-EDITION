@@ -92,7 +92,10 @@ class MainMenuUi extends MusicBeatState
 		// logoBl.color = FlxColor.BLACK;
 		add(logo);
 		
-		Ui = new FlxText(0, 250, 0, "Click F7 to Back normal MainMenu");
+		Ui = new FlxText(0, 250, 0, "Click F7 to Back normal MainMenu", 32);
+		Ui.color = FlxColor.PURPLE;
+		//Ui.screenCenter();
+		add(Ui);
 
 		var yScroll:Float = Math.max(0.25 - (0.05 * (optionShit.length - 4)), 0.1);
 		var bg:FlxSprite = new FlxSprite(-80);
@@ -227,6 +230,7 @@ class MainMenuUi extends MusicBeatState
 				MusicBeatState.switchState(new TitleState());
 			}
 			if (FlxG.keys.justPressed.F7) {
+				Ui.color = FlxColor.CYAN;
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				MusicBeatState.switchState(new MainMenuState());
 			}
