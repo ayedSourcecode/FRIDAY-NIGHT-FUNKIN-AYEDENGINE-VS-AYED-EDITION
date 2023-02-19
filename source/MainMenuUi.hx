@@ -251,7 +251,7 @@ class MainMenuUi extends MusicBeatState
 							});
 						} else {
 							logo.color = FlxColor.PURPLE;
-							FlxTween.tween(FlxG.camera, {zoom: 2}, 1.6, {ease: FlxEase.expoInOut});
+							FlxTween.tween(FlxG.camera, {zoom: 1.8}, 1.4, {ease: FlxEase.expoInOut});
 							FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker) {
 								var daChoice:String = optionShit[curSelected];
 
