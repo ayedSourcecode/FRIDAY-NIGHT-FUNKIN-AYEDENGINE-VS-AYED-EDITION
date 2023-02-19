@@ -48,6 +48,7 @@ class MainMenuUi extends MusicBeatState
 	];
 
 	var logo:FlxSprite;
+	var Ui:FlxText;
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
 	var camFollowPos:FlxObject;
@@ -90,6 +91,8 @@ class MainMenuUi extends MusicBeatState
 		// logoBl.screenCenter();
 		// logoBl.color = FlxColor.BLACK;
 		add(logo);
+		
+		Ui = new FlxText(0, 250, 0, "Click F7 to Back normal MainMenu");
 
 		var yScroll:Float = Math.max(0.25 - (0.05 * (optionShit.length - 4)), 0.1);
 		var bg:FlxSprite = new FlxSprite(-80);
@@ -250,6 +253,7 @@ class MainMenuUi extends MusicBeatState
 								}
 							});
 						} else {
+							versionShitA.color = 0x4677FF;
 							logo.color = FlxColor.PURPLE;
 							FlxTween.tween(FlxG.camera, {zoom: 1.8}, 1.4, {ease: FlxEase.expoInOut});
 							FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker) {
