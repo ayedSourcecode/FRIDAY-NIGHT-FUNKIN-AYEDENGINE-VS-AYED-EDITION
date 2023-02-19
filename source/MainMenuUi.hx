@@ -41,10 +41,10 @@ class MainMenuUi extends MusicBeatState
 		// #if ACHIEVEMENTS_ALLOWED 'awards', #end
 		// 'Discord',
 		// 'Youtube',
-		// 'credits',
+		'credits',
 		// #if !switch 'donate', #end
 		// 'options',
-		// 'Quit'
+		'Quit'
 	];
 
 	var logo:FlxSprite;
@@ -93,8 +93,8 @@ class MainMenuUi extends MusicBeatState
 
 		var yScroll:Float = Math.max(0.25 - (0.05 * (optionShit.length - 4)), 0.1);
 		var bg:FlxSprite = new FlxSprite(-80);
-		bg.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLUE);
-		// bg.loadGraphic(Paths.image('menuBG'));
+		// bg.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLUE);
+		bg.loadGraphic(Paths.image('menuBG'));
 		bg.scrollFactor.set(0, yScroll);
 		bg.setGraphicSize(Std.int(bg.width * 1.175));
 		bg.updateHitbox();
@@ -137,8 +137,8 @@ class MainMenuUi extends MusicBeatState
 			menuItem.animation.addByPrefix('selected', optionShit[i] + " white", 24);
 			menuItem.animation.play('idle');
 			menuItem.ID = i;
-			menuItem.x = 100;
-			// menuItem.screenCenter(X);
+			// menuItem.x = 100;
+			menuItem.screenCenter(X);
 			menuItems.add(menuItem);
 			var scr:Float = (optionShit.length - 4) * 0.135;
 			if (optionShit.length < 6)
@@ -161,7 +161,7 @@ class MainMenuUi extends MusicBeatState
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.CYAN, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
-		var versionShit:FlxText = new FlxText(12, FlxG.height - 24, 0, "Complete change UI", 12);
+		var versionShit:FlxText = new FlxText(12, FlxG.height - 24, 0, "Complete change Main Menu UI", 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.RED, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
@@ -287,7 +287,7 @@ class MainMenuUi extends MusicBeatState
 		super.update(elapsed);
 
 		menuItems.forEach(function(spr:FlxSprite) {
-			// spr.screenCenter(X);
+			spr.screenCenter(X);
 		});
 	}
 
