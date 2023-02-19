@@ -254,10 +254,11 @@ class MainMenuUi extends MusicBeatState
 								ease: FlxEase.quadOut,
 								onComplete: function(twn:FlxTween) {
 									spr.kill();
+								// versionShitA.color = 0x4677FF;
 								}
 							});
 						} else {
-							versionShitA.color = 0x4677FF;
+							
 							logo.color = FlxColor.PURPLE;
 							FlxTween.tween(FlxG.camera, {zoom: 1.8}, 1.4, {ease: FlxEase.expoInOut});
 							FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker) {
