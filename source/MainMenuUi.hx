@@ -94,7 +94,7 @@ class MainMenuUi extends MusicBeatState
 		var yScroll:Float = Math.max(0.25 - (0.05 * (optionShit.length - 4)), 0.1);
 		var bg:FlxSprite = new FlxSprite(-80);
 		// bg.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLUE);
-		bg.loadGraphic(Paths.image('menuBG'));
+		bg.loadGraphic(Paths.image('menuBGUi'));
 		bg.scrollFactor.set(0, yScroll);
 		bg.setGraphicSize(Std.int(bg.width * 1.175));
 		bg.updateHitbox();
