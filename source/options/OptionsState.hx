@@ -13,6 +13,7 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
 import flixel.FlxSubState;
+import flixel.system.FlxSound;
 import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -52,6 +53,7 @@ class OptionsState extends MusicBeatState
 		}
 	}
 
+	var MusicOptions:FlxSound;
 	var selectorLeft:Alphabet;
 	var selectorRight:Alphabet;
 
@@ -59,6 +61,10 @@ class OptionsState extends MusicBeatState
 		#if desktop
 		DiscordClient.changePresence("Options Menu", null);
 		#end
+		
+		MusicOptions = new FlxSound().loadEmbedded(Paths.music('OptionsFresh'), true);
+		MusicOptions.play();
+		FlxG.sound.list.add(MusicOptions);
 
 		var bg:FlxSprite = new FlxSprite();
 		bg.loadGraphic(Paths.image('menuOptions'));
@@ -113,6 +119,7 @@ class OptionsState extends MusicBeatState
 		}
 
 		if (controls.BACK) {
+			MusicOptions.stop();
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			MusicBeatState.switchState(new MainMenuState());
 		}
