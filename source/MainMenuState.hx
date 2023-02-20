@@ -291,6 +291,7 @@ class MainMenuState extends MusicBeatState
 									case 'credits':
 										MusicBeatState.switchState(new CreditsState());
 									case 'options':
+										FlxG.sound.music.stop();
 										LoadingState.loadAndSwitchState(new options.OptionsState());
 								}
 							});
