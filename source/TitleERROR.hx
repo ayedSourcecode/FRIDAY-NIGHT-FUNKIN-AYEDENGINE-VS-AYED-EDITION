@@ -212,13 +212,7 @@ class TitleERROR extends MusicBeatState {
 		}
 
 		var bg:FlxSprite = new FlxSprite();
-
-		if (titleJSON.backgroundSprite != null && titleJSON.backgroundSprite.length > 0 && titleJSON.backgroundSprite != "none") {
-			bg.loadGraphic(Paths.image(titleJSON.backgroundSprite));
-		} else {
-			// bg.makeGraphic(FlxG.width, FlxG.height, FlxColor.CYAN);
-			bg.loadGraphic(Paths.image(ERRRORBG));
-		}
+		bg.loadGraphic(Paths.image(ERRRORBG));
 
 		// bg.antialiasing = ClientPrefs.globalAntialiasing;
 		// bg.setGraphicSize(Std.int(bg.width * 0.6));
@@ -237,7 +231,7 @@ class TitleERROR extends MusicBeatState {
 
 		// add(gfDance);
 		gfDance.shader = swagShader.shader;
-		add(logoERROR);
+		add(logoBl);
 		logoBl.shader = swagShader.shader;
 
 		titleText = new FlxSprite(titleJSON.startx, titleJSON.starty);
