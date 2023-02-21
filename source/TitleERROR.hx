@@ -142,28 +142,6 @@ class TitleERROR extends MusicBeatState {
 
 		Highscore.load();
 
-		// IGNORE THIS!!!
-		titleJSON = Json.parse(Paths.getTextFromFile('images/gfDanceTitle.json'));
-
-		#if TITLE_SCREEN_EASTER_EGG
-		if (FlxG.save.data.psychDevsEasterEgg == null)
-			FlxG.save.data.psychDevsEasterEgg = ''; // Crash prevention
-		switch (FlxG.save.data.psychDevsEasterEgg.toUpperCase()) {
-			case 'SHADOW':
-				titleJSON.gfx += 210;
-				titleJSON.gfy += 40;
-			case 'RIVER':
-				titleJSON.gfx += 100;
-				titleJSON.gfy += 20;
-			case 'SHUBS':
-				titleJSON.gfx += 160;
-				titleJSON.gfy -= 10;
-			case 'BBPANZU':
-				titleJSON.gfx += 45;
-				titleJSON.gfy += 100;
-		}
-		#end
-
 		if (!initialized) {
 			if (FlxG.save.data != null && FlxG.save.data.fullscreen) {
 				FlxG.fullscreen = FlxG.save.data.fullscreen;
@@ -199,7 +177,7 @@ class TitleERROR extends MusicBeatState {
 		#end
 	}
 
-	var logoERROR:FlxSprite;
+	var logoBl:FlxSprite;
 	var gfDance:FlxSprite;
 	var danceLeft:Bool = false;
 	var titleText:FlxSprite;
@@ -233,9 +211,6 @@ class TitleERROR extends MusicBeatState {
 			}
 		}
 
-		Conductor.changeBPM(titleJSON.bpm);
-		persistentUpdate = true;
-
 		var bg:FlxSprite = new FlxSprite();
 
 		if (titleJSON.backgroundSprite != null && titleJSON.backgroundSprite.length > 0 && titleJSON.backgroundSprite != "none") {
@@ -250,52 +225,15 @@ class TitleERROR extends MusicBeatState {
 		// bg.updateHitbox();
 		add(bg);
 
-		logoERROR = new FlxSprite(titleJSON.titlex, titleJSON.titley);
-		logoERROR.frames = Paths.getSparrowAtlas('logoERROR');
+		logoBl = new FlxSprite(titleJSON.titlex, titleJSON.titley);
+		logoBl.frames = Paths.getSparrowAtlas('logoERROR');
 
-		logoERROR.antialiasing = ClientPrefs.globalAntialiasing;
-		logoERROR.animation.addByPrefix('bump', 'logo ERROR', 24, false);
-		logoERROR.animation.play('bump');
-		logoERROR.updateHitbox();
+		logoBl.antialiasing = ClientPrefs.globalAntialiasing;
+		logoBl.animation.addByPrefix('bump', 'logo ERROR', 24, false);
+		logoBl.animation.play('bump');
+		logoBl.updateHitbox();
 		// logoBl.screenCenter();
 		// logoBl.color = FlxColor.BLACK;
-
-		swagShader = new ColorSwap();
-		gfDance = new FlxSprite(titleJSON.gfx, titleJSON.gfy);
-
-		var easterEgg:String = FlxG.save.data.psychDevsEasterEgg;
-		if (easterEgg == null)
-			easterEgg = ''; // html5 fix
-
-		switch (easterEgg.toUpperCase()) {
-			#if TITLE_SCREEN_EASTER_EGG
-			case 'SHADOW':
-				gfDance.frames = Paths.getSparrowAtlas('ShadowBump');
-				gfDance.animation.addByPrefix('danceLeft', 'Shadow Title Bump', 24);
-				gfDance.animation.addByPrefix('danceRight', 'Shadow Title Bump', 24);
-			case 'RIVER':
-				gfDance.frames = Paths.getSparrowAtlas('RiverBump');
-				gfDance.animation.addByIndices('danceLeft', 'River Title Bump', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
-				gfDance.animation.addByIndices('danceRight', 'River Title Bump', [29, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-			case 'SHUBS':
-				gfDance.frames = Paths.getSparrowAtlas('ShubBump');
-				gfDance.animation.addByPrefix('danceLeft', 'Shub Title Bump', 24, false);
-				gfDance.animation.addByPrefix('danceRight', 'Shub Title Bump', 24, false);
-			case 'BBPANZU':
-				gfDance.frames = Paths.getSparrowAtlas('BBBump');
-				gfDance.animation.addByIndices('danceLeft', 'BB Title Bump', [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], "", 24, false);
-				gfDance.animation.addByIndices('danceRight', 'BB Title Bump', [27, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], "", 24, false);
-			#end
-
-			default:
-				// EDIT THIS ONE IF YOU'RE MAKING A SOURCE CODE MOD!!!!
-				// EDIT THIS ONE IF YOU'RE MAKING A SOURCE CODE MOD!!!!
-				// EDIT THIS ONE IF YOU'RE MAKING A SOURCE CODE MOD!!!!
-				gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
-				gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-				gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
-		}
-		gfDance.antialiasing = ClientPrefs.globalAntialiasing;
 
 		// add(gfDance);
 		gfDance.shader = swagShader.shader;
