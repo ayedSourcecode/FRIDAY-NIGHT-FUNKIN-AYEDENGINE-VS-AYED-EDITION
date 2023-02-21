@@ -67,7 +67,7 @@ class TitleERROR extends MusicBeatState {
 
 	var mustUpdate:Bool = false;
 
-	var titleJSON:TitleData;
+	// var titleJSON:TitleData;
 
 	public static var updateVersion:String = '';
 
