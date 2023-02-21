@@ -38,17 +38,6 @@ import sys.FileSystem;
 import sys.io.File;
 #end
 
-// import flixel.graphics.FlxGraphic;
-typedef TitleData = {
-	titlex:Float,
-	titley:Float,
-	startx:Float,
-	starty:Float,
-	gfx:Float,
-	gfy:Float,
-	backgroundSprite:String,
-	bpm:Int
-}
 
 class TitleERROR extends MusicBeatState {
 	public static var muteKeys:Array<FlxKey> = [FlxKey.ZERO];
