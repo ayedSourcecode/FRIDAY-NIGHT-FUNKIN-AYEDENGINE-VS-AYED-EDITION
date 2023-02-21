@@ -234,6 +234,11 @@ class MainMenuUi extends MusicBeatState
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				MusicBeatState.switchState(new MainMenuState());
 			}
+			if (FlxG.keys.justPressed.F1) {
+				FlxG.sound.music.stop();
+				FlxG.sound.play(Paths.sound('ERRORSOUND'));
+				MusicBeatState.switchState(new TitleStateERROR());
+			}
 
 			if (controls.ACCEPT) {
 				if (optionShit[curSelected] == 'Discord') {
