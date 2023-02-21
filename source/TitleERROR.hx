@@ -183,7 +183,7 @@ class TitleERROR extends MusicBeatState {
 	var titleText:FlxSprite;
 	var swagShader:ColorSwap = null;
 
-	function startIntro()
+	function startIntro() {
 
 		var bg:FlxSprite = new FlxSprite();
 		bg.loadGraphic(Paths.image('ERRRORBG'));
