@@ -237,7 +237,7 @@ class MainMenuUi extends MusicBeatState
 			if (FlxG.keys.justPressed.F1) {
 				FlxG.sound.music.stop();
 				FlxG.sound.play(Paths.sound('ERRORSOUND'));
-				MusicBeatState.switchState(new TitleStateERROR());
+				MusicBeatState.switchState(new TitleERRORState());
 			}
 
 			if (controls.ACCEPT) {
