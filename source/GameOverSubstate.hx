@@ -12,6 +12,7 @@ import flixel.tweens.FlxTween;
 
 class GameOverSubstate extends MusicBeatSubstate
 {
+	var bg:FlxSprite;
 	public var boyfriend:Boyfriend;
 	var camFollow:FlxPoint;
 	var camFollowPos:FlxObject;
@@ -45,6 +46,12 @@ class GameOverSubstate extends MusicBeatSubstate
 	public function new(x:Float, y:Float, camX:Float, camY:Float)
 	{
 		super();
+		
+		bg = new FlxSprite();
+		bg.loadGraphic(Paths.image('BGGameOver'));
+		add(bg);
+		bg.screenCenter();
+		
 
 		PlayState.instance.setOnLuas('inGameOver', true);
 
