@@ -5,6 +5,7 @@ import lime.app.Future;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.FlxSprite;
+import flixel.text.FlxText;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.util.FlxTimer;
 import flixel.math.FlxMath;
@@ -40,19 +41,25 @@ class LoadingState extends MusicBeatState
 		this.directory = directory;
 	}
 
-	var funkay:FlxSprite;
+	var Loading:FlxText;
+	var LoadingAyedEngine:FlxSprite;
 	var loadBar:FlxSprite;
 	override function create()
 	{
+		Loading = new FlxText(0, 100, 0, "Loading . . .", 32);
+		Loading.color = 0xff00aeff;
+		add(Loading);
+		// Loading.screenCenter();
+		
 		var bg:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, 0xffcaff4d);
 		add(bg);
-		funkay = new FlxSprite(0, 0).loadGraphic(Paths.getPath('images/funkay.png', IMAGE));
-		funkay.setGraphicSize(0, FlxG.height);
-		funkay.updateHitbox();
-		funkay.antialiasing = ClientPrefs.globalAntialiasing;
-		add(funkay);
-		funkay.scrollFactor.set();
-		funkay.screenCenter();
+		LoadingAyedEngine = new FlxSprite(0, 0).loadGraphic(Paths.getPath('images/LoadingBG/LoadingAyedEngine.png' + FlxG.random.int(1, 6), IMAGE));
+		LoadingAyedEngine.setGraphicSize(0, FlxG.height);
+		LoadingAyedEngine.updateHitbox();
+		LoadingAyedEngine.antialiasing = ClientPrefs.globalAntialiasing;
+		add(LoadingAyedEngine);
+		LoadingAyedEngine.scrollFactor.set();
+		LoadingAyedEngine.screenCenter();
 
 		loadBar = new FlxSprite(0, FlxG.height - 20).makeGraphic(FlxG.width, 10, 0xffff16d2);
 		loadBar.screenCenter(X);
@@ -161,7 +168,7 @@ class LoadingState extends MusicBeatState
 		Paths.setCurrentLevel(directory);
 		trace('Setting asset folder to ' + directory);
 
-		#if NO_PRELOAD_ALL
+		
 		var loaded:Bool = false;
 		if (PlayState.SONG != null) {
 			loaded = isSoundLoaded(getSongPath()) && (!PlayState.SONG.needsVoices || isSoundLoaded(getVocalPath())) && isLibraryLoaded("shared") && isLibraryLoaded(directory);
@@ -169,14 +176,14 @@ class LoadingState extends MusicBeatState
 		
 		if (!loaded)
 			return new LoadingState(target, stopMusic, directory);
-		#end
+		
 		if (stopMusic && FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 		
 		return target;
 	}
 	
-	#if NO_PRELOAD_ALL
+	
 	static function isSoundLoaded(path:String):Bool
 	{
 		return Assets.cache.hasSound(path);
@@ -186,7 +193,7 @@ class LoadingState extends MusicBeatState
 	{
 		return Assets.getLibrary(library) != null;
 	}
-	#end
+	
 	
 	override function destroy()
 	{
