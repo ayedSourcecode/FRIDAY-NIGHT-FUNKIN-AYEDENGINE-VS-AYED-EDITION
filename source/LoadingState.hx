@@ -120,12 +120,12 @@ class LoadingState extends MusicBeatState
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		funkay.setGraphicSize(Std.int(0.88 * FlxG.width + 0.9 * (funkay.width - 0.88 * FlxG.width)));
-		funkay.updateHitbox();
+		LoadingAyedEngine.setGraphicSize(Std.int(0.88 * FlxG.width + 0.9 * (LoadingAyedEngine.width - 0.88 * FlxG.width)));
+		LoadingAyedEngine.updateHitbox();
 		if(controls.ACCEPT)
 		{
-			funkay.setGraphicSize(Std.int(funkay.width + 60));
-			funkay.updateHitbox();
+			LoadingAyedEngine.setGraphicSize(Std.int(LoadingAyedEngine.width + 60));
+			LoadingAyedEngine.updateHitbox();
 		}
 
 		if(callbacks != null) {
