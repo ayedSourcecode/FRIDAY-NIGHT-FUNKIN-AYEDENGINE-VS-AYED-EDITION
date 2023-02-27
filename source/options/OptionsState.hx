@@ -48,8 +48,9 @@ class OptionsState extends MusicBeatState
 				openSubState(new options.VisualsUISubState());
 			case 'Gameplay':
 				openSubState(new options.GameplaySettingsSubState());
-			case 'Adjust Delay and Combo':
-				LoadingState.loadAndSwitchState(new options.NoteOffsetState());
+			case 'Save':
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				MusicBeatState.switchState(new TitleState());
 		}
 	}
 
@@ -119,7 +120,6 @@ class OptionsState extends MusicBeatState
 		}
 
 		if (controls.BACK) {
-			// MusicOptions.stop();
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			// FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			MusicBeatState.switchState(new MainMenuState());
