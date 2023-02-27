@@ -10,7 +10,7 @@ import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.util.FlxTimer;
 import flixel.math.FlxMath;
 
-// import openfl.utils.Assets;
+import openfl.utils.Assets;
 import lime.utils.Assets as LimeAssets;
 import lime.utils.AssetLibrary;
 import lime.utils.AssetManifest;
@@ -53,7 +53,7 @@ class LoadingState extends MusicBeatState
 		
 		var bg:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, 0xffcaff4d);
 		add(bg);
-		LoadingAyedEngine = new FlxSprite(0, 0).loadGraphic(Paths.getPath('images/LoadingBG/LoadingAyedEngine' + FlxG.random.int(1, 6)));
+		LoadingAyedEngine = new FlxSprite(0, 0).loadGraphic(Paths.getPath('images/LoadingBG/LoadingAyedEngine' + FlxG.random.int(1, 6), IMAGE));
 		LoadingAyedEngine.setGraphicSize(0, FlxG.height);
 		LoadingAyedEngine.updateHitbox();
 		LoadingAyedEngine.antialiasing = ClientPrefs.globalAntialiasing;
