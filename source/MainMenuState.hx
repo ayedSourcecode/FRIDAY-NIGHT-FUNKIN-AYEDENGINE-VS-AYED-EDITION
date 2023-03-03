@@ -289,6 +289,7 @@ class MainMenuState extends MusicBeatState
 									case 'awards':
 										MusicBeatState.switchState(new AchievementsMenuState());
 									case 'credits':
+										FlxG.sound.music.stop();
 										MusicBeatState.switchState(new CreditsState());
 									case 'options':
 										FlxG.sound.music.stop();
