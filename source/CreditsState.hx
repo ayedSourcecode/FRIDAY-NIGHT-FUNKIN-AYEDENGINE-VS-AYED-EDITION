@@ -48,7 +48,8 @@ class CreditsState extends MusicBeatState
 		FlxG.sound.playMusic(Paths.music('MusicCredits'));
 
 		persistentUpdate = true;
-		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		bg = new FlxSprite();
+		bg.loadGraphic(Paths.image('menuOption'));
 		add(bg);
 		bg.screenCenter();
 		
