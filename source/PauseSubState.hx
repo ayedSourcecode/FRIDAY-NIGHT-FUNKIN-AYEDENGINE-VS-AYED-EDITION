@@ -20,7 +20,7 @@ class PauseSubState extends MusicBeatSubstate
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
 	var menuItems:Array<String> = [];
-	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Exit to menu'];
+	var menuItemsOG:Array<String> = ['Resume', 'Options', 'Restart Song', 'Change Difficulty', 'Exit to menu'];
 	var difficultyChoices = [];
 	var curSelected:Int = 0;
 
@@ -76,14 +76,15 @@ class PauseSubState extends MusicBeatSubstate
 		bgTwo.loadGraphic(Paths.image('PauseBGTwo'));
 		bgTwo.alpha = 0;
 		bgTwo.scrollFactor.set();
-		add(bgTwo);
+		
 		bgTwo.screenCenter();
 	 	
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		bg.alpha = 0;
 		bg.scrollFactor.set();
 		add(bg);
-
+		//add(bgTwo);
+		
 		var levelInfo:FlxText = new FlxText(20, 15, 0, "", 32);
 		levelInfo.text += PlayState.SONG.song;
 		levelInfo.scrollFactor.set();
@@ -140,6 +141,8 @@ class PauseSubState extends MusicBeatSubstate
 
 		regenMenu();
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
+
+		// menuItems.x = 250;
 	}
 
 	var holdTime:Float = 0;
@@ -221,6 +224,8 @@ class PauseSubState extends MusicBeatSubstate
 			{
 				case "Resume":
 					close();
+				case "Options":
+					MusicBeatState.switchState(new options.OptionsState());
 				case 'Change Difficulty':
 					menuItems = difficultyChoices;
 					deleteSkipTimeText();
@@ -261,14 +266,13 @@ class PauseSubState extends MusicBeatSubstate
 				case "Exit to menu":
 					PlayState.deathCounter = 0;
 					PlayState.seenCutscene = false;
-
 					WeekData.loadTheFirstEnabledMod();
 					if(PlayState.isStoryMode) {
 						MusicBeatState.switchState(new StoryMenuState());
 					} else {
-						FlxG.sound.playMusic(Paths.music('freakyMenu'));
 						MusicBeatState.switchState(new FreeplayState());
 					}
+					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 					PlayState.cancelMusicFadeTween();
 					PlayState.changedDifficulty = false;
 					PlayState.chartingMode = false;
@@ -356,7 +360,8 @@ class PauseSubState extends MusicBeatSubstate
 		}
 
 		for (i in 0...menuItems.length) {
-			var item = new Alphabet(90, 320, menuItems[i], true);
+			var item = new Alphabet(250, 320, menuItems[i], true);
+			item.screenCenter(X);
 			item.isMenuItem = true;
 			item.targetY = i;
 			grpMenuShit.add(item);

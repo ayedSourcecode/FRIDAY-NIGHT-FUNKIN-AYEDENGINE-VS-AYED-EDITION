@@ -4,6 +4,7 @@ import lime.app.Promise;
 import lime.app.Future;
 import flixel.FlxG;
 import flixel.FlxState;
+import flixel.util.FlxColor;
 import flixel.FlxSprite;
 import flixel.text.FlxText;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -19,6 +20,8 @@ import haxe.io.Path;
 
 class LoadingState extends MusicBeatState
 {
+	// static var bg(default, null):?;
+
 	inline static var MIN_TIME = 1.0;
 
 	// Browsers will load create(), you can make your song load a custom directory there
@@ -26,7 +29,8 @@ class LoadingState extends MusicBeatState
 	// I'd recommend doing it on both actually lol
 	
 	// TO DO: Make this easier
-	
+
+
 	var target:FlxState;
 	var stopMusic = false;
 	var directory:String;
@@ -41,18 +45,18 @@ class LoadingState extends MusicBeatState
 		this.directory = directory;
 	}
 
-	var Loading:FlxText;
+	var loading:FlxText;
 	var LoadingAyedEngine:FlxSprite;
 	var loadBar:FlxSprite;
 	override function create()
 	{
-		Loading = new FlxText(0, 100, 0, "Loading . . .", 32);
-		Loading.color = 0xff00aeff;
-		add(Loading);
+		loading = new FlxText(0, 650, 0, "Loading . . .", 32);
+		loading.color = FlxColor.WHITE;
 		// Loading.screenCenter();
 		
-		var bg:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, 0xffcaff4d);
+		var bg:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, 0xffe5ff00);
 		add(bg);
+		
 		LoadingAyedEngine = new FlxSprite(0, 0).loadGraphic(Paths.image('LoadingBG/LoadingAyedEngine' + FlxG.random.int(1, 8)));
 		LoadingAyedEngine.setGraphicSize(0, FlxG.height);
 		LoadingAyedEngine.updateHitbox();
@@ -61,10 +65,11 @@ class LoadingState extends MusicBeatState
 		LoadingAyedEngine.scrollFactor.set();
 		LoadingAyedEngine.screenCenter();
 
-		loadBar = new FlxSprite(0, FlxG.height - 20).makeGraphic(FlxG.width, 10, 0xffff16d2);
+		loadBar = new FlxSprite(0, FlxG.height - 20).makeGraphic(FlxG.width, 10, 0xff00c200);
 		loadBar.screenCenter(X);
 		loadBar.antialiasing = ClientPrefs.globalAntialiasing;
 		add(loadBar);
+		add(loading);
 		
 		initSongsManifest().onComplete
 		(
@@ -175,11 +180,12 @@ class LoadingState extends MusicBeatState
 		}
 		
 		if (!loaded)
+		// 	bg.color = FlxColor.BLUE;
 			return new LoadingState(target, stopMusic, directory);
 		
 		if (stopMusic && FlxG.sound.music != null)
 			FlxG.sound.music.stop();
-		
+
 		return target;
 	}
 	

@@ -36,7 +36,8 @@ class Cache extends MusicBeatState
 	var images = [];
 	var music = [];
 
-	var shitz:FlxText;
+	var shitz:Alphabet ;
+	var bgcolor:FlxSprite;
 
 	override function create()
 	{
@@ -47,13 +48,20 @@ class Cache extends MusicBeatState
 		bitmapData = new Map<String,FlxGraphic>();
 		bitmapData2 = new Map<String,FlxGraphic>();
 
+		bgcolor = new FlxSprite();
+		// bgcolor.makeGraphic(0, 0, 0xFFB3FF00);
+		bgcolor.color = 0xFFB3FF00;
+		bgcolor.screenCenter();
+		
 		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image('loadingGame/loadingGame' + FlxG.random.int(1, 14)));
 		menuBG.screenCenter();
+		add(bgcolor);
 		add(menuBG);
 
-		shitz = new FlxText(12, 630, 300, "Loading...", 12);
+		shitz = new Alphabet(12, 630, "Loading...", true);
 		shitz.scrollFactor.set();
-		shitz.setFormat("VCR OSD Mono", 50, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		shitz.color = 0xD9FF00;
+		// shitz.setFormat("VCR OSD Mono", 50, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(shitz);
 
 		#if cpp

@@ -85,12 +85,12 @@ class MainMenuUi extends MusicBeatState
 		logo.frames = Paths.getSparrowAtlas('logoBumpin');
 
 		logo.antialiasing = ClientPrefs.globalAntialiasing;
-		logo.animation.addByPrefix('bump', 'logo bumpin', 24, false);
+		logo.animation.addByPrefix('bump', 'logo bumpin', 24, true);
 		logo.animation.play('bump');
 		logo.updateHitbox();
 		// logoBl.screenCenter();
 		// logoBl.color = FlxColor.BLACK;
-		add(logo);
+		
 		
 		Ui = new FlxText(0, 250, 0, "Click F7 to Back normal MainMenu", 32);
 		Ui.color = FlxColor.PURPLE;
@@ -122,7 +122,7 @@ class MainMenuUi extends MusicBeatState
 		magenta.antialiasing = ClientPrefs.globalAntialiasing;
 		magenta.color = 0xFFfd719b;
 		add(magenta);
-
+		add(logo);
 		// magenta.scrollFactor.set();
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
@@ -234,18 +234,15 @@ class MainMenuUi extends MusicBeatState
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				MusicBeatState.switchState(new MainMenuState());
 			}
-			if (FlxG.keys.justPressed.F1) {
-				FlxG.sound.music.stop();
-				FlxG.sound.play(Paths.sound('ERRORSOUND'));
-				MusicBeatState.switchState(new TitleERROR());
-			}
 
 			if (controls.ACCEPT) {
 				if (optionShit[curSelected] == 'Discord') {
 					CoolUtil.browserLoad('https://discord.gg/tMAwuMJx');
 				}
 				if (optionShit[curSelected] == 'Quit') {
-					Sys.exit(1);
+					//Sys.exit(1);
+					FlxG.sound.play(Paths.sound('confirmMenu'));
+					MusicBeatState.switchState(new MainMenuState());
 				} else {
 					selectedSomethin = true;
 					FlxG.sound.play(Paths.sound('confirmMenu'));

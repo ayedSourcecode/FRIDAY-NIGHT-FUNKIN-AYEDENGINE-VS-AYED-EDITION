@@ -32,6 +32,7 @@ class Paths
 
 	#if MODS_ALLOWED
 	public static var ignoreModFolders:Array<String> = [
+		'GALLERY', // GALLERY COMING SOON
 		'characters',
 		'custom_events',
 		'custom_notetypes',
@@ -367,7 +368,7 @@ class Paths
 			localTrackedAssets.push(path);
 			return currentTrackedAssets.get(path);
 		}
-		trace('oh no its returning null NOOOO');
+		trace('oh no its returning null NOOOO i like a good j');
 		return null;
 	}
 

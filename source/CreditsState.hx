@@ -1,5 +1,6 @@
 package;
 
+import openfl.ui.Mouse;
 #if desktop
 import Discord.DiscordClient;
 #end
@@ -30,6 +31,7 @@ class CreditsState extends MusicBeatState
 	private var iconArray:Array<AttachedSprite> = [];
 	private var creditsStuff:Array<Array<String>> = [];
 
+	var logoBl:FlxSprite;
 	var bg:FlxSprite;
 	var descText:FlxText;
 	var intendedColor:Int;
@@ -42,14 +44,26 @@ class CreditsState extends MusicBeatState
 	{
 		#if desktop
 		// Updating Discord Rich Presence
-		DiscordClient.changePresence("In the Menus", null);
+		DiscordClient.changePresence("Menu Credits", null);
 		#end
 		
 		FlxG.sound.playMusic(Paths.music('MusicCredits'));
 
+		logoBl = new FlxSprite(500, 0);
+		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
+
+		logoBl.antialiasing = ClientPrefs.globalAntialiasing;
+		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, true);
+		add(logoBl);
+		logoBl.animation.play('bump');
+		logoBl.updateHitbox();
+		// logoBl.screenCenter();
+		// logoBl.color = FlxColor.BLACK;
+		
+
 		persistentUpdate = true;
 		bg = new FlxSprite();
-		bg.loadGraphic(Paths.image('menuOption'));
+		bg.loadGraphic(Paths.image('menuCredits'));
 		add(bg);
 		bg.screenCenter();
 		
@@ -85,54 +99,25 @@ class CreditsState extends MusicBeatState
 		#end
 
 		var pisspoop:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
-			['AYED ENGINE BY'],
-			['ayedFNFmaker', 'ayed', 'AYED OWNER MODS AND ENGINE', 'https://twitter.com/ayedfnfMaker', '0000FF'],
-			['Ezra TigerYT', 'Ezra', 'Ezra Making best character', 'https://www.youtube.com/channel/UCy1CBd2dvVcp-iy7SfV5X4A', 'FF6006'],
-			['XxSussy Baka', 'Xxsans', 'ARTIST', 'https://www.youtube.com/@xxsansteamfell9378', 'C10A0A'],
-			[''],
-			['Vs Ayed EDITION'],
-			['THE OWNER AND ARTIST AND SONG AND CODING AND MORE...'],
-			['ayedFNFMAKER', 'ayed', 'ONWER', 'https://www.youtube.com/@ayedfnfcover', '0000FF'],
-			['Ezra TigerYT', 'Ezra', 'OWNER', 'https://www.youtube.com/channel/UCy1CBd2dvVcp-iy7SfV5X4A', 'FF6006'],
-			['XxSussy Baka', 'Xxsans', 'OWNER', 'https://www.youtube.com/@xxsansteamfell9378', 'C10A0A'],
-			['Tiffany', 'Tiffany', 'helping with my mods', 'https://www.youtube.com/channel/UC7kXPjj8xBOZlnpNH35KKYw?app=desktop', ''],
-			[''],
-			['ARTIST'],
-			['NiterhaleReal', 'NiterhaleReal', 'ARTIST', 'https://www.youtube.com/@niterhalereal_offical', '9C00D2'],
-			['BK', 'BK', 'ARTIST', 'https://twitter.com/BK_reel', '33FF71'],
+			['Vs ayed/AYED ENGINE'],
+
+			['ayedFNFmaker', 'ayed', 'CODER AND CHARTER AND MUSICAL AND ARTIST ALSO THE OWNER #1', 'https://twitter.com/ayedfnfMaker', '0000FF'],
+			['AsyPryo', 'AsyPryo', 'THE OWNER #2', 'https://www.youtube.com/channel/UC_g6bbr9PoIGGalD4Cv5RwA', '00F3FF'],
+			['Ezra TigerYT', 'Ezra', 'composer', 'https://www.youtube.com/channel/UCy1CBd2dvVcp-iy7SfV5X4A', 'FF6006'],
+			['XxSussy Baka', 'Xxsans', 'Best Mother also Owner', 'https://www.youtube.com/@xxsansteamfell9378', 'C10A0A'],
+			['Banley', 'Banley', 'new helping mods', 'https://www.youtube.com/channel/UCm6oCNG6VLpd604VzfWDwbA', 'F0C8F0'],
+			['BadGuy', 'BadGuy', 'Convert chromatic on DWP', '', '33FF71'],
+			['RedTheAngryBird', 'RedTheAngryBird', 'The compose', 'https://www.youtube.com/channel/UCz6O1svtIq4YJUq2S-mTEiw', 'FF0000'],
+			['bamibo', 'bamibo', 'bamibo my bestie helping me', 'https://www.youtube.com/channel/UCgT7h6VOIALR6I2IRXHr2tA', 'FF00EC'],
 			['Wastanky', 'Wastanky', 'BEST ARTIST', 'https://www.youtube.com/@WasTankyis_Stupid', 'FF00F7'],
-			['AsyPryo', 'AsyPryo', 'ARTIST', 'https://www.youtube.com/channel/UC_g6bbr9PoIGGalD4Cv5RwA', '00F3FF'],
-			[''],
-			['thanks for play'],
+			['NiterhaleReal', 'NiterhaleReal', 'ARTIST', 'https://www.youtube.com/@niterhalereal_offical', '9C00D2'],
+			['BK', 'BK', 'Chromatic', 'https://twitter.com/BK_reel', '33FF71'],
+			['Playing Mods'],
 			['YOU', 'YOU', 'thanks for playing my mods', 'https://www.youtube.com/watch?v=Wz_mLit3-wQ', 'FF1DE7'],
-			[''],
+			// [''],
 			['------Discord-----'],
-			['', 'Discord', 'click to join', 'https://discord.gg/tMAwuMJx', '33A8FF'],
+			['', 'Discord', 'click to join on server', 'https://discord.gg/tMAwuMJx', '33A8FF'],
 			[''],
-			[''],
-			['Psych Engine Team'],
-			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',								'https://twitter.com/Shadow_Mario_',	'444444'],
-			['RiverOaken',			'river',			'Main Artist/Animator of Psych Engine',							'https://twitter.com/RiverOaken',		'B42F71'],
-			['shubs',				'shubs',			'Additional Programmer of Psych Engine',						'https://twitter.com/yoshubs',			'5E99DF'],
-			[''],
-			['Former Engine Members'],
-			['bb-panzu',			'bb',				'Ex-Programmer of Psych Engine',								'https://twitter.com/bbsub3',			'3E813A'],
-			[''],
-			['Engine Contributors'],
-			['iFlicky',				'flicky',			'Composer of Psync and Tea Time\nMade the Dialogue Sounds',		'https://twitter.com/flicky_i',			'9E29CF'],
-			['SqirraRNG',			'sqirra',			'Crash Handler and Base code for\nChart Editor\'s Waveform',	'https://twitter.com/gedehari',			'E1843A'],
-			['EliteMasterEric',		'mastereric',		'Runtime Shaders support',										'https://twitter.com/EliteMasterEric',	'FFBD40'],
-			['PolybiusProxy',		'proxy',			'.MP4 Video Loader Library (hxCodec)',							'https://twitter.com/polybiusproxy',	'DCD294'],
-			['KadeDev',				'kade',				'Fixed some cool stuff on Chart Editor\nand other PRs',			'https://twitter.com/kade0912',			'64A250'],
-			['Keoiki',				'keoiki',			'Note Splash Animations',										'https://twitter.com/Keoiki_',			'D2D2D2'],
-			['Nebula the Zorua',	'nebula',			'LUA JIT Fork and some Lua reworks',							'https://twitter.com/Nebula_Zorua',		'7D40B2'],
-			['Smokey',				'smokey',			'Sprite Atlas Support',											'https://twitter.com/Smokey_5_',		'483D92'],
-			[''],
-			["Funkin' Crew"],
-			['ninjamuffin99',		'ninjamuffin99',	"Programmer of Friday Night Funkin'",							'https://twitter.com/ninja_muffin99',	'CF2D2D'],
-			['PhantomArcade',		'phantomarcade',	"Animator of Friday Night Funkin'",								'https://twitter.com/PhantomArcade3K',	'FADC45'],
-			['evilsk8r',			'evilsk8r',			"Artist of Friday Night Funkin'",								'https://twitter.com/evilsk8r',			'5ABD4B'],
-			['kawaisprite',			'kawaisprite',		"Composer of Friday Night Funkin'",								'https://twitter.com/kawaisprite',		'378FC7']
 		];
 		
 		for(i in pisspoop){
@@ -141,8 +126,12 @@ class CreditsState extends MusicBeatState
 	
 		for (i in 0...creditsStuff.length)
 		{
+
+			// creditsStuff.x = FlxColor.PURPLE;
+
 			var isSelectable:Bool = !unselectableCheck(i);
 			var optionText:Alphabet = new Alphabet(FlxG.width / 2, 300, creditsStuff[i][0], !isSelectable);
+			optionText.color = 0xFFFFFFFF;
 			optionText.isMenuItem = true;
 			optionText.targetY = i;
 			optionText.changeX = false;
@@ -170,15 +159,16 @@ class CreditsState extends MusicBeatState
 		}
 		
 		descBox = new AttachedSprite();
-		descBox.makeGraphic(1, 1, FlxColor.BLACK);
+		descBox.makeGraphic(1, 1, 0xFF000000);
+		descBox.screenCenter();
 		descBox.xAdd = -10;
-		descBox.yAdd = -10;
+		descBox.yAdd = -5;
 		descBox.alphaMult = 0.6;
 		descBox.alpha = 0.6;
-		add(descBox);
+		// add(descBox);
 
 		descText = new FlxText(50, FlxG.height + offsetThing - 25, 1180, "", 32);
-		descText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);
+		descText.setFormat(Paths.font("vcr.ttf"), 32, 0xFF00C4C4, LEFT/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);
 		descText.scrollFactor.set();
 		//descText.borderSize = 2.4;
 		descBox.sprTracker = descText;

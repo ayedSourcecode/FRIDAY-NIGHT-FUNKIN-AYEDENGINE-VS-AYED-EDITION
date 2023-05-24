@@ -128,14 +128,17 @@ class FreeplayState extends MusicBeatState
 			songText.color = 0x0011FF;
 			songText.isMenuItem = true;
 			songText.targetY = i - curSelected;
+			songText.screenCenter();
 			grpSongs.add(songText);
 
 			var maxWidth = 980;
 			if (songText.width > maxWidth)
 			{
-				songText.scaleX = maxWidth / songText.width;
+				
+				// songText.scaleX = maxWidth / songText.width;
 			}
 			songText.snapToPosition();
+			
 
 			Paths.currentModDirectory = songs[i].folder;
 			var icon:HealthIcon = new HealthIcon(songs[i].songCharacter);
@@ -224,6 +227,7 @@ class FreeplayState extends MusicBeatState
 	public function addSong(songName:String, weekNum:Int, songCharacter:String, color:Int)
 	{
 		songs.push(new SongMetadata(songName, weekNum, songCharacter, color));
+		// song.screenCenter();
 	}
 
 	function weekIsLocked(name:String):Bool {
