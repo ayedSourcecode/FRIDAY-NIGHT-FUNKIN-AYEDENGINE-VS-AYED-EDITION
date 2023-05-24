@@ -1,5 +1,7 @@
 package openfl.display;
 
+import flixel.text.FlxText;
+import flixel.util.FlxColor;
 import haxe.Timer;
 import openfl.events.Event;
 import openfl.text.TextField;
@@ -31,6 +33,7 @@ class FPS extends TextField
 		The current frame rate, expressed using frames-per-second
 	**/
 	public var currentFPS(default, null):Int;
+	public var ayedEngine:FlxText;
 
 	@:noCompletion private var cacheCount:Int;
 	@:noCompletion private var currentTime:Float;
@@ -38,18 +41,21 @@ class FPS extends TextField
 
 	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
 	{
+		// ayedEngine = new FlxText(10, 15, 0, 'ayedEngine' + MainMenuState.AyedEngineVersion, 5);
+		
 		super();
 
 		this.x = x;
 		this.y = y;
 
+		
 		currentFPS = 0;
 		selectable = false;
 		mouseEnabled = false;
-		defaultTextFormat = new TextFormat("_sans", 14, color);
+		defaultTextFormat = new TextFormat("_sans", 12, color);
 		autoSize = LEFT;
 		multiline = true;
-		text = "FPSS: ";
+		text = "FPS: ";
 
 		cacheCount = 0;
 		currentTime = 0;
@@ -62,6 +68,7 @@ class FPS extends TextField
 			__enterFrame(time - currentTime);
 		});
 		#end
+		// add(name);
 	}
 
 	// Event Handlers
@@ -82,18 +89,18 @@ class FPS extends TextField
 
 		if (currentCount != cacheCount /*&& visible*/)
 		{
-			text = "FPSS: " + currentFPS;
+			text = "FPS: " + currentFPS;
 			var memoryMegas:Float = 0;
-			
+
 			#if openfl
 			memoryMegas = Math.abs(FlxMath.roundDecimal(System.totalMemory / 1000000, 1));
-			text += "\nMemory: " + memoryMegas + " MB";
+			text += "\nMEM: " + memoryMegas + " MB";
 			#end
 
-			textColor = 0x00A2FF;
+			textColor = 0x0099FF;
 			if (memoryMegas > 3000 || currentFPS <= ClientPrefs.framerate / 2)
 			{
-				textColor = 0xFFFF0000;
+				textColor = 0xFF770303;
 			}
 
 			#if (gl_stats && !disable_cffi && (!html5 || !canvas))
@@ -102,9 +109,10 @@ class FPS extends TextField
 			text += "\nstage3DDC: " + Context3DStats.contextDrawCalls(DrawCallContext.STAGE3D);
 			#end
 
-			text += "\n";
-		}
+			text += "\nAYEDENGINE V:" + MainMenuState.AyedEngineVersion;
 
+		}
+	// add(name);
 		cacheCount = currentCount;
 	}
 }
