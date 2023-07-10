@@ -77,20 +77,12 @@ class QuitState extends MusicBeatState
 
         super.create();
     }
-
-    #if html5
-    private function ClickExit() 
-    {
-        // Sys.exit(1);
-    }
-    #end
-
-    #if windows
-    private function ClickExit() 
+	
+    function ClickExit() 
     {
         Sys.exit(1);
     }
-    #end
+
     private function ClickBack() 
     {
         idk.alpha = 0.5;
