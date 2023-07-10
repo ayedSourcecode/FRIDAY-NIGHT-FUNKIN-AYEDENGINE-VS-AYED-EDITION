@@ -54,7 +54,7 @@ class VisualsUISubState extends BaseOptionsMenu
 			'string',
 			'Time Left',
 			['Time Left', 'Time Elapsed', 'Song Name', 'Disabled']);
-		addOption(option);
+		// addOption(option);
 
 		var option:Option = new Option('Flashing Lights',
 			"Uncheck this if you're sensitive to flashing lights!",
@@ -120,6 +120,13 @@ class VisualsUISubState extends BaseOptionsMenu
 		var option:Option = new Option('Combo Stacking',
 			"If unchecked, Ratings and Combo won't stack, saving on System Memory and making them easier to read",
 			'comboStacking',
+			'bool',
+			true);
+		addOption(option);
+
+		var option:Option = new Option('Show image loading screen',
+			"you know the image loading screen to show",
+			'hideLoadingState',
 			'bool',
 			true);
 		addOption(option);

@@ -33,11 +33,23 @@ class FPS extends TextField
 		The current frame rate, expressed using frames-per-second
 	**/
 	public var currentFPS(default, null):Int;
-	public var ayedEngine:FlxText;
+	// public var ayedEngine:FlxText;
 
 	@:noCompletion private var cacheCount:Int;
 	@:noCompletion private var currentTime:Float;
 	@:noCompletion private var times:Array<Float>;
+	var currentColor:Int = 0;
+	var skippedFrames = 0;
+	var colorArray:Array<Int> = [
+        0xFF9400D3,
+        0xFF4B0082,
+        0xFF0000FF,
+        0xFF00FF00,
+        0xFFFFFF00,
+        0xFFFF7F00,
+        0xFFFF0000
+
+        ];
 
 	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
 	{
@@ -68,15 +80,34 @@ class FPS extends TextField
 			__enterFrame(time - currentTime);
 		});
 		#end
-		// add(name);
 	}
 
 	// Event Handlers
 	@:noCompletion
 	private #if !flash override #end function __enterFrame(deltaTime:Float):Void
 	{
-		currentTime += deltaTime;
-		times.push(currentTime);
+		if (ClientPrefs.rainbowFPS)
+			{
+				if (skippedFrames >= 6)
+				{
+					if (currentColor >= colorArray.length)
+						currentColor = 0;
+					textColor = colorArray[currentColor];
+					currentColor++;
+					skippedFrames = 0;
+				}
+				else
+				{
+					skippedFrames++;
+				}
+			}
+			else
+			{
+			textColor = 0xFF00E1FF;
+			}
+			
+			currentTime += deltaTime;
+			times.push(currentTime);
 
 		while (times[0] < currentTime - 1000)
 		{
@@ -91,13 +122,17 @@ class FPS extends TextField
 		{
 			text = "FPS: " + currentFPS;
 			var memoryMegas:Float = 0;
+			var memoryPeaks:Float = 0;
+			var peak:Float = 0;
 
 			#if openfl
-			memoryMegas = Math.abs(FlxMath.roundDecimal(System.totalMemory / 1000000, 1));
-			text += "\nMEM: " + memoryMegas + " MB";
-			#end
+            memoryMegas = Math.abs(FlxMath.roundDecimal(System.totalMemory / 1000000, 1));
+            if(memoryMegas > peak) peak = memoryMegas;
+            text += "\nMEM: " + memoryMegas + " MB";
+			text += "\nMEM PEAK: " + peak + " MB";
+            #end
 
-			textColor = 0x0099FF;
+			// textColor = colorShit[0];
 			if (memoryMegas > 3000 || currentFPS <= ClientPrefs.framerate / 2)
 			{
 				textColor = 0xFF770303;
@@ -109,7 +144,10 @@ class FPS extends TextField
 			text += "\nstage3DDC: " + Context3DStats.contextDrawCalls(DrawCallContext.STAGE3D);
 			#end
 
-			text += "\nAYEDENGINE V:" + MainMenuState.AyedEngineVersion;
+			if(ClientPrefs.showAeVs)
+			{
+				text += "\nAYEDENGINE V:" + MainMenuState.AyedEngineVersion;
+			}
 
 		}
 	// add(name);

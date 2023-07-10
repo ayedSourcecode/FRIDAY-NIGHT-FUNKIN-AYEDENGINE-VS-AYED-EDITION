@@ -41,7 +41,6 @@ class WeekEditorState extends MusicBeatState
 	var bgSprite:FlxSprite;
 	var lock:FlxSprite;
 	var txtTracklist:FlxText;
-	var grpWeekCharacters:FlxTypedGroup<MenuCharacter>;
 	var weekThing:MenuItem;
 	var missingFileText:FlxText;
 
@@ -61,7 +60,7 @@ class WeekEditorState extends MusicBeatState
 		
 		var ui_tex = Paths.getSparrowAtlas('campaign_menu_UI_assets');
 		var bgYellow:FlxSprite = new FlxSprite(0, 56).makeGraphic(FlxG.width, 386, 0xFFF9CF51);
-		bgSprite = new FlxSprite(0, 56);
+		bgSprite = new FlxSprite(0, 0);
 		bgSprite.antialiasing = ClientPrefs.globalAntialiasing;
 
 		weekThing = new MenuItem(0, bgSprite.y + 396, weekFileName);
@@ -70,9 +69,9 @@ class WeekEditorState extends MusicBeatState
 		add(weekThing);
 
 		var blackBarThingie:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, 56, FlxColor.BLACK);
-		add(blackBarThingie);
+		// add(blackBarThingie);
 		
-		grpWeekCharacters = new FlxTypedGroup<MenuCharacter>();
+		// grpWeekCharacters = new FlxTypedGroup<MenuCharacter>();
 		
 		lock = new FlxSprite();
 		lock.frames = ui_tex;
@@ -86,18 +85,10 @@ class WeekEditorState extends MusicBeatState
 		missingFileText.borderSize = 2;
 		missingFileText.visible = false;
 		add(missingFileText); 
-		
-		var charArray:Array<String> = weekFile.weekCharacters;
-		for (char in 0...3)
-		{
-			var weekCharacterThing:MenuCharacter = new MenuCharacter((FlxG.width * 0.25) * (1 + char) - 150, charArray[char]);
-			weekCharacterThing.y += 70;
-			grpWeekCharacters.add(weekCharacterThing);
-		}
 
 		add(bgYellow);
 		add(bgSprite);
-		add(grpWeekCharacters);
+		// add(grpWeekCharacters);
 
 		var tracksSprite:FlxSprite = new FlxSprite(FlxG.width * 0.07, bgSprite.y + 435).loadGraphic(Paths.image('Menu_Tracks'));
 		tracksSprite.antialiasing = ClientPrefs.globalAntialiasing;
@@ -302,9 +293,9 @@ class WeekEditorState extends MusicBeatState
 
 	function updateText()
 	{
-		for (i in 0...grpWeekCharacters.length) {
-			grpWeekCharacters.members[i].changeCharacter(weekFile.weekCharacters[i]);
-		}
+		// for (i in 0...grpWeekCharacters.length) {
+			// grpWeekCharacters.members[i].changeCharacter(weekFile.weekCharacters[i]);
+
 
 		var stringThing:Array<String> = [];
 		for (i in 0...weekFile.songs.length) {

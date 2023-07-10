@@ -35,7 +35,7 @@ using StringTools;
 
 class OptionsState extends MusicBeatState
 {
-	var options:Array<String> = ['Controls', 'Visuals and UI', 'Gameplay', 'Save'];
+	var options:Array<String> = ['Controls', 'Visuals and UI', 'Gameplay', 'Setting Ayed Engine', 'Save'];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private var Trying:FlxButton;
 	private var About:FlxText;
@@ -53,7 +53,10 @@ class OptionsState extends MusicBeatState
 				openSubState(new options.VisualsUISubState());
 			case 'Gameplay':
 				openSubState(new options.GameplaySettingsSubState());
+			case 'Setting Ayed Engine':
+				openSubState(new options.SettingAyedEngineState());
 			case 'Save':
+				ClientPrefs.saveSettings();
 				FlxG.sound.music.stop();
 				FlxG.sound.play(Paths.sound('confirmMenu'));
 				MusicBeatState.switchState(new TitleState());
@@ -70,7 +73,7 @@ class OptionsState extends MusicBeatState
 		}
 	}
 
-	var MusicOptions:FlxSound;
+	// var MusicOptions:FlxSound;
 	var selectorLeft:Alphabet;
 	var selectorRight:Alphabet;
 
@@ -83,9 +86,7 @@ class OptionsState extends MusicBeatState
 		Trying = new FlxButton(100, 0, "Trying with tutorial", ClickTrying);
 		Trying.color = 0xFFea71fd;
 
-		MusicOptions = new FlxSound().loadEmbedded(Paths.music('OptionsFresh'), true);
-		MusicOptions.play();
-		FlxG.sound.list.add(MusicOptions);
+		FlxG.sound.playMusic(Paths.music('OptionsFresh'));
 
 		var bg:FlxSprite = new FlxSprite();
 		bg.loadGraphic(Paths.image('menuOptions'));
@@ -103,20 +104,21 @@ class OptionsState extends MusicBeatState
 		{
 			var optionText:Alphabet = new Alphabet(0, 0, options[i], true);
 			// optionText.x = 100;
-			optionText.screenCenter();
+			// optionText.screenCenter();
+			optionText.isMenuItem = true;
 			optionText.color = 0x0051FF;
-			optionText.y += (100 * (i - (options.length / 2))) + 50;
+			// optionText.y += (100 * (i - (options.length / 2))) + 50;
 			// optionText.x += (100 * (i - (options.length / 2))) + 50;
 			var scr:Float = (options.length - 4) * 0.135;
 			if (options.length < 6)
 				scr = 0;
-			optionText.snapToPosition();
+			// optionText.snapToPosition();
 			grpOptions.add(optionText);
 		}
 
 		selectorLeft = new Alphabet(0, 0, '>', true);
 		selectorLeft.color = 0x1900FF;
-		add(selectorLeft);
+		// add(selectorLeft);
 		selectorRight = new Alphabet(0, 0, '<', true);
 		selectorRight.color = 0x1900FF;
 		add(selectorRight);
@@ -163,9 +165,9 @@ class OptionsState extends MusicBeatState
 
 		if (controls.BACK)
 		{
-			MusicOptions.stop();
+			// MusicOptions.stop();
 			FlxG.sound.play(Paths.sound('cancelMenu'));
-			FlxG.sound.playMusic(Paths.music('freakyMenu'));
+			// FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			MusicBeatState.switchState(new MainMenuState());
 		}
 
@@ -192,13 +194,11 @@ class OptionsState extends MusicBeatState
 			item.targetY = bullShit - curSelected;
 			bullShit++;
 
-			item.alpha = 0.6;
-			if (item.targetY == 0)
+			item.alpha = 1;
+			if (item.targetY == item.y)
 			{
 				item.alpha = 1;
-				selectorLeft.x = item.x - 63;
-				selectorLeft.y = item.y;
-				selectorRight.x = item.x + item.width + 15;
+				selectorRight.x = item.x + 800; // LOL ENGINE
 				selectorRight.y = item.y;
 			}
 		}
