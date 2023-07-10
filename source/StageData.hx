@@ -53,6 +53,8 @@ class StageData {
 					stage = 'schoolEvil';
 				case 'ugh' | 'guns' | 'stress':
 					stage = 'tank';
+				case 'undistor' | 'UNDISTOR-REMIX':
+					stage = 'BGTONIGHT';
 				default:
 					stage = 'stage';
 			}

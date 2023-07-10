@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxG;
+import flixel.text.FlxText;
 import flixel.FlxSprite;
 import flixel.FlxObject;
 import flixel.FlxSubState;
@@ -51,6 +52,13 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		PlayState.instance.setOnLuas('inGameOver', true);
 
+		bg = new FlxSprite();
+		bg.makeGraphic(FlxG.width, FlxG.height, FlxColor.CYAN);
+		bg.alpha = 0.5;
+		// bg.makeGraphic(0, 0, FlxColor.CYAN);
+		// add(bg);
+		// bg.screenCenter();
+
 		Conductor.songPosition = 0;
 
 		boyfriend = new Boyfriend(x, y, characterName);
@@ -72,11 +80,17 @@ class GameOverSubstate extends MusicBeatSubstate
 		camFollowPos = new FlxObject(0, 0, 1, 1);
 		camFollowPos.setPosition(FlxG.camera.scroll.x + (FlxG.camera.width / 2), FlxG.camera.scroll.y + (FlxG.camera.height / 2));
 		add(camFollowPos);
+
+		var lowQualityText:FlxText = new FlxText(bg.x + 250, bg.y + 300, 0, 'remember Low Quality True', 200);
+		lowQualityText.color = FlxColor.PINK;
+		lowQualityText.setFormat("vcr.ttf", 50);
 		
-		bg = new FlxSprite();
-		bg.loadGraphic(Paths.image('BGGameOver'));
-		add(bg);
-		bg.screenCenter();
+		if (ClientPrefs.highGPU)
+		{
+			remove(boyfriend);
+			add(bg);
+			add(lowQualityText);
+		}
 	}
 
 	var isFollowingAlready:Bool = false;

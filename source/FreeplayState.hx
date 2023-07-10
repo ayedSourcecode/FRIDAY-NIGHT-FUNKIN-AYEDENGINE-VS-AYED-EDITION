@@ -50,6 +50,7 @@ class FreeplayState extends MusicBeatState
 	var logoBl:FlxSprite;
 	var intendedColor:Int;
 	var colorTween:FlxTween;
+	var songText:Alphabet;
 
 	override function create()
 	{
@@ -119,17 +120,23 @@ class FreeplayState extends MusicBeatState
 		// logoBl.color = FlxColor.BLACK;
 		add(logoBl);
 
+		if(ClientPrefs.highGPU)
+		{
+			logoBl.visible = false;
+		}
+
 		grpSongs = new FlxTypedGroup<Alphabet>();
 		add(grpSongs);
 
 		for (i in 0...songs.length)
 		{
-			var songText:Alphabet = new Alphabet(90, 320, songs[i].songName, true);
+			songText = new Alphabet(90, 320, songs[i].songName, true);
 			songText.color = 0x0011FF;
 			songText.isMenuItem = true;
 			songText.targetY = i - curSelected;
 			songText.screenCenter();
 			grpSongs.add(songText);
+			songText.snapToPosition();
 
 			var maxWidth = 980;
 			if (songText.width > maxWidth)
@@ -137,7 +144,7 @@ class FreeplayState extends MusicBeatState
 				
 				// songText.scaleX = maxWidth / songText.width;
 			}
-			songText.snapToPosition();
+			// songText.snapToPosition();
 			
 
 			Paths.currentModDirectory = songs[i].folder;
@@ -404,7 +411,7 @@ class FreeplayState extends MusicBeatState
 			}
 
 			FlxG.sound.music.volume = 0;
-					
+			
 			destroyFreeplayVocals();
 		}
 		else if(controls.RESET)

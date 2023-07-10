@@ -64,7 +64,7 @@ class StoryMenuState extends MusicBeatState
 
 		scoreText = new FlxText(10, 10, 0, "SCORE: 49324858", 15);
 		scoreText.color = 0x1900FF;
-		// scoreText.setFormat("VCR OSD Mono", 32);
+		scoreText.setFormat("VCR OSD Mono", 32);
 
 		txtWeekTitle = new FlxText(0.7, 10, 0, "", 32);
 		txtWeekTitle.setFormat("VCR OSD Mono", 32, FlxColor.CYAN, RIGHT);
@@ -75,23 +75,16 @@ class StoryMenuState extends MusicBeatState
 		rankText.setFormat(Paths.font("vcr.ttf"), 32);
 		rankText.size = scoreText.size;
 		rankText.screenCenter(X);
- 
-		var characterFNF:FlxSprite = new FlxSprite().loadGraphic(Paths.image('ImageStory/CharFNF' + FlxG.random.int(1, 6)));
-		characterFNF.x = -100;
-		characterFNF.screenCenter(Y);
 
 		var ui_tex = Paths.getSparrowAtlas('campaign_menu_UI_assets');
 		var bgYellow:FlxSprite = new FlxSprite(0, 56).makeGraphic(FlxG.width, 386, 0xFFF9CF51);
-		bgSprite = new FlxSprite(0, 56);
+		bgSprite = new FlxSprite(0, -10);
+		// bgSprite.screenCenter();
 		bgSprite.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bgSprite);
 
 		grpWeekText = new FlxTypedGroup<MenuItem>();
 		add(grpWeekText);
-
-		var blackBarThingie:FlxSprite = new FlxSprite();
-		blackBarThingie.loadGraphic(Paths.image('menubackgrounds/StoryMenu'));
-		// add(blackBarThingie);
 
 		grpWeekCharacters = new FlxTypedGroup<MenuCharacter>();
 
@@ -112,7 +105,7 @@ class StoryMenuState extends MusicBeatState
 			{
 				loadedWeeks.push(weekFile);
 				WeekData.setDirectoryFromWeek(weekFile);
-				var weekThing:MenuItem = new MenuItem(0, bgSprite.y + 396, WeekData.weeksList[i]);
+				var weekThing:MenuItem = new MenuItem(0, 396, WeekData.weeksList[i]);
 				weekThing.y += ((weekThing.height + 20) * num);
 				weekThing.targetY = num;
 				grpWeekText.add(weekThing);
@@ -181,15 +174,17 @@ class StoryMenuState extends MusicBeatState
 		
 		// add(grpWeekCharacters);
 
-		var tracksSprite:FlxSprite = new FlxSprite(FlxG.width * 0.07, bgSprite.y + 425).loadGraphic(Paths.image('Menu_Tracks'));
+		var tracksSprite:FlxSprite = new FlxSprite(0, 10).loadGraphic(Paths.image('Menu_Tracks'));
+		tracksSprite.screenCenter(X);
 		tracksSprite.antialiasing = ClientPrefs.globalAntialiasing;
-		// add(tracksSprite);
+		add(tracksSprite);
 
-		txtTracklist = new FlxText(FlxG.width * 0.05, tracksSprite.y + 60, 0, "", 32);
+		txtTracklist = new FlxText(0, 57, 0, "", 32);
+		// txtTracklist.screenCenter();
 		txtTracklist.alignment = CENTER;
 		txtTracklist.font = rankText.font;
 		txtTracklist.color = 0xff1100ff;
-		// add(txtTracklist);
+		add(txtTracklist);
 		// add(rankText);
 		
 		add(difficultySelectors);
@@ -197,7 +192,6 @@ class StoryMenuState extends MusicBeatState
 
 		add(scoreText);
 		add(txtWeekTitle);
-		add(characterFNF);
 
 		// add(weekThing);
 
@@ -218,13 +212,13 @@ class StoryMenuState extends MusicBeatState
 	override function update(elapsed:Float)
 	{
 		scoreText.setFormat('VCR OSD Mono', 32);
-		// lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, CoolUtil.boundTo(elapsed * 30, 0, 1)));
+		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, CoolUtil.boundTo(elapsed * 30, 0, 1)));
 		if(Math.abs(intendedScore - lerpScore) < 10) lerpScore = intendedScore;
 
 		scoreText.text = "WEEK SCORE:" + lerpScore;
 		scoreText.color = 0xff1100ff;
 
-		// FlxG.watch.addQuick('font', scoreText.font);
+		FlxG.watch.addQuick('font', scoreText.font);
 
 		if (!movedBack && !selectedWeek)
 		{
@@ -505,7 +499,7 @@ class StoryMenuState extends MusicBeatState
 		txtTracklist.text = txtTracklist.text.toUpperCase();
 
 		txtTracklist.screenCenter(X);
-		txtTracklist.x -= FlxG.width * 0.35;
+		// txtTracklist.x -= FlxG.width * 0.35;
 
 		#if !switch
 		intendedScore = Highscore.getWeekScore(loadedWeeks[curWeek].fileName, curDifficulty);

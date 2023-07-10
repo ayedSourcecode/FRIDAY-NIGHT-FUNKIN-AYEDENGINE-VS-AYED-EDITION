@@ -9,6 +9,7 @@ import flixel.FlxSprite;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.text.FlxText;
+import flixel.addons.effects.chainable.FlxRainbowEffect;
 
 class QuitState extends MusicBeatState
 {
@@ -17,6 +18,7 @@ class QuitState extends MusicBeatState
     var descBox:AttachedSprite;
     private var yes:FlxButton;
     private var not:FlxButton;
+    var idk:FlxRainbowEffect;
     
     override function create()
     {
@@ -32,6 +34,8 @@ class QuitState extends MusicBeatState
         FlxG.sound.playMusic(Paths.music('MusicQuit'), 1, true);
 
         FlxG.mouse.visible = true;
+
+
 
         descBox = new AttachedSprite();
 		descBox.makeGraphic(1, 1, 0xFF000000);
@@ -67,18 +71,29 @@ class QuitState extends MusicBeatState
         not.screenCenter(Y);
         // not.setSize(1000, 1000); 
         add(not);
-        
+
+        idk = new FlxRainbowEffect(1, 1, 2, 6);
+        idk.active = true;
+
         super.create();
     }
 
+    #if html5
     private function ClickExit() 
     {
-        #if html5
         // Sys.exit(1);
-        #end
     }
+    #end
+
+    #if windows
+    private function ClickExit() 
+    {
+        Sys.exit(1);
+    }
+    #end
     private function ClickBack() 
     {
+        idk.alpha = 0.5;
         FlxG.mouse.visible = false;
         FlxG.sound.play(Paths.sound('confirmMenu'));
         MusicBeatState.switchState(new MainMenuState());

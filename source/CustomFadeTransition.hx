@@ -31,7 +31,7 @@ class CustomFadeTransition extends MusicBeatSubstate {
 		var height:Int = Std.int(FlxG.height / zoom);
 		transGradient = FlxGradient.createGradientFlxSprite(width, height, (isTransIn ? [0x0, FlxColor.BLACK] : [FlxColor.BLACK, 0x0]));
 		transGradient.scrollFactor.set();
-		add(transGradient);
+		// add(transGradient);
 
 		transBlack = new FlxSprite().makeGraphic(width, height + 400, FlxColor.BLACK);
 		transBlack.scrollFactor.set();
@@ -41,16 +41,16 @@ class CustomFadeTransition extends MusicBeatSubstate {
 		transBlack.x = transGradient.x;
 
 		if(isTransIn) {
-			transGradient.y = transBlack.y - transBlack.height;
-			FlxTween.tween(transGradient, {y: transGradient.height + 50}, duration, {
+			transGradient.x = transBlack.x - transBlack.height;
+			FlxTween.tween(transGradient, {x: transGradient.height + 100}, duration, {
 				onComplete: function(twn:FlxTween) {
 					close();
 				},
 			ease: FlxEase.linear});
 		} else {
-			transGradient.y = -transGradient.height;
-			transBlack.y = transGradient.y - transBlack.height + 50;
-			leTween = FlxTween.tween(transGradient, {y: transGradient.height + 50}, duration, {
+			transGradient.x = -transGradient.height;
+			transBlack.x = transGradient.x - transBlack.height + 100;
+			leTween = FlxTween.tween(transGradient, {x: transGradient.height + 100}, duration, {
 				onComplete: function(twn:FlxTween) {
 					if(finishCallback != null) {
 						finishCallback();
@@ -68,15 +68,15 @@ class CustomFadeTransition extends MusicBeatSubstate {
 
 	override function update(elapsed:Float) {
 		if(isTransIn) {
-			transBlack.y = transGradient.y + transGradient.height;
+			transBlack.x = transGradient.x + transGradient.height;
 		} else {
-			transBlack.y = transGradient.y - transBlack.height;
+			transBlack.x = transGradient.x - transBlack.height;
 		}
 		super.update(elapsed);
 		if(isTransIn) {
-			transBlack.y = transGradient.y + transGradient.height;
+			transBlack.x = transGradient.x + transGradient.height;
 		} else {
-			transBlack.y = transGradient.y - transBlack.height;
+			transBlack.x = transGradient.x - transBlack.height;
 		}
 	}
 

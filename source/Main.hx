@@ -8,6 +8,7 @@ import openfl.Assets;
 import openfl.Lib;
 import openfl.display.FPS;
 import openfl.display.Sprite;
+import flixel.addons.effects.chainable.FlxRainbowEffect;
 import openfl.events.Event;
 import openfl.display.StageScaleMode;
 import lime.app.Application;
@@ -33,15 +34,14 @@ class Main extends Sprite
 	var game = {
 		width: 1280, // WINDOW width
 		height: 720, // WINDOW height
-		initialState: TitleState, // initial game state
-		zoom: -1.0, // game state bounds
-		framerate: 60, // default framerate
+		initialState: StartingEngine, // initial game state
+		zoom: 1.0, // game state bounds
+		framerate: 120, // default framerate
 		skipSplash: true, // if the default flixel splash screen should be skipped
 		startFullscreen: false // if the game should start at fullscreen mode
 	};
 
 	public static var fpsVar:FPS;
-
 	// You can pretty much ignore everything from here on - your code should go in your states.
 
 	public static function main():Void

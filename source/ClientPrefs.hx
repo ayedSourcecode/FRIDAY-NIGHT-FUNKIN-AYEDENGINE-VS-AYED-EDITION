@@ -33,6 +33,12 @@ class ClientPrefs {
 	public static var pauseMusic:String = 'Tea Time';
 	public static var checkForUpdates:Bool = true;
 	public static var comboStacking = true;
+	public static var fullScreen:Bool = true;
+	public static var hideLoadingState:Bool = false;
+	public static var highGPU:Bool = false;
+	public static var hideTimeNum:Bool = false;
+	public static var rainbowFPS:Bool = true;
+	public static var showAeVs:Bool = false;
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -60,6 +66,7 @@ class ClientPrefs {
 	public static var goodWindow:Int = 90;
 	public static var badWindow:Int = 135;
 	public static var safeFrames:Float = 10;
+	// public static var fullScreen:Bool;
 
 	//Every key has two binds, add your key bind down here and then add your control on options/ControlsSubState.hx and Controls.hx
 	public static var keyBinds:Map<String, Array<FlxKey>> = [
@@ -118,18 +125,24 @@ class ClientPrefs {
 		FlxG.save.data.comboOffset = comboOffset;
 		FlxG.save.data.achievementsMap = Achievements.achievementsMap;
 		FlxG.save.data.henchmenDeath = Achievements.henchmenDeath;
+		FlxG.save.data.highGPU = highGPU;
+		FlxG.save.data.hideTimeNum = hideTimeNum;
+		FlxG.save.data.rainbowFPS = rainbowFPS;
+		FlxG.save.data.showAeVs = showAeVs;
 
 		FlxG.save.data.ratingOffset = ratingOffset;
 		FlxG.save.data.sickWindow = sickWindow;
 		FlxG.save.data.goodWindow = goodWindow;
 		FlxG.save.data.badWindow = badWindow;
 		FlxG.save.data.safeFrames = safeFrames;
+		FlxG.save.data.fullScreen = fullScreen;
 		FlxG.save.data.gameplaySettings = gameplaySettings;
 		FlxG.save.data.controllerMode = controllerMode;
 		FlxG.save.data.hitsoundVolume = hitsoundVolume;
 		FlxG.save.data.pauseMusic = pauseMusic;
 		FlxG.save.data.checkForUpdates = checkForUpdates;
 		FlxG.save.data.comboStacking = comboStacking;
+		FlxG.save.data.hideLoadingState = hideLoadingState;
 	
 		FlxG.save.flush();
 
@@ -233,6 +246,9 @@ class ClientPrefs {
 		if(FlxG.save.data.safeFrames != null) {
 			safeFrames = FlxG.save.data.safeFrames;
 		}
+		if(FlxG.save.data.fullScreen != null) {
+			fullScreen = FlxG.save.data.fullScreen;
+		}
 		if(FlxG.save.data.controllerMode != null) {
 			controllerMode = FlxG.save.data.controllerMode;
 		}
@@ -250,6 +266,18 @@ class ClientPrefs {
 				gameplaySettings.set(name, value);
 			}
 		}
+		if(FlxG.save.data.highGPU != null)
+		{
+			highGPU = FlxG.save.data.highGPU;
+		}
+		if(FlxG.save.data.hideTimeNum != null)
+		{
+			hideTimeNum = FlxG.save.data.hideTimeNum;
+		}
+		if(FlxG.save.data.rainbowFPS != rainbowFPS)
+		{
+			rainbowFPS = FlxG.save.data.rainbowFPS;
+		}
 		
 		// flixel automatically saves your volume!
 		if(FlxG.save.data.volume != null)
@@ -264,8 +292,14 @@ class ClientPrefs {
 		{
 			checkForUpdates = FlxG.save.data.checkForUpdates;
 		}
-		if (FlxG.save.data.comboStacking != null)
+		if (FlxG.save.data.comboStacking != null){
 			comboStacking = FlxG.save.data.comboStacking;
+		}
+		if (FlxG.save.data.hideLoadingState != null){
+			hideLoadingState = FlxG.save.data.hideLoadingState;
+		}
+		if (FlxG.save.data.showAeVs != null)
+			showAeVs = FlxG.save.data.showAeVs;
 
 		var save:FlxSave = new FlxSave();
 		save.bind('controls_v2', CoolUtil.getSavePath());

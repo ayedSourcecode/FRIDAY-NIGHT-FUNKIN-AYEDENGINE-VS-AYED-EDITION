@@ -19,6 +19,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import lime.app.Application;
+import flixel.util.FlxTimer;
 import Achievements;
 import editors.MasterEditorMenu;
 import flixel.input.keyboard.FlxKey;
@@ -28,8 +29,9 @@ using StringTools;
 class MainMenuState extends MusicBeatState {
 	public static var AyedVersion:String = '1.5.0';
 	public static var AyedEngineVersion:String = '1.5.0'; // This is also used for Discord RPC
-	public static var psychEngineVersion:String = '0.6.3'; // This is also used for Discord RPC
+	// public static var psychEngineVersion:String = '0.6.3'; // This is also used for Discord RPC
 	public static var curSelected:Int = 0;
+	public static inline var BG_COLOR:FlxColor = 0xDDF700FF;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
 	private var camGame:FlxCamera;
@@ -51,6 +53,7 @@ class MainMenuState extends MusicBeatState {
 	var camFollow:FlxObject;
 	var camFollowPos:FlxObject;
 	var debugKeys:Array<FlxKey>;
+	var timer:FlxTimer;
 
 	override function create() {
 		#if MODS_ALLOWED
@@ -62,6 +65,7 @@ class MainMenuState extends MusicBeatState {
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In MainMenu Ayed Engine", null);
 		#end
+
 		debugKeys = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_1'));
 
 		FlxG.mouse.visible = true;
@@ -104,7 +108,7 @@ class MainMenuState extends MusicBeatState {
 		add(camFollow);
 		add(camFollowPos);
 
-		magenta = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
+		magenta = new FlxSprite(-80).loadGraphic(Paths.image('menuBG' + FlxG.random.int(1, 5)));
 		magenta.scrollFactor.set(0, yScroll);
 		magenta.setGraphicSize(Std.int(magenta.width * 1.175));
 		magenta.updateHitbox();
@@ -117,6 +121,13 @@ class MainMenuState extends MusicBeatState {
 		velocityBG = new FlxBackdrop(Paths.image('velocityBG'));
 		velocityBG.velocity.set(50, 50);
 		add(velocityBG);
+
+		if(ClientPrefs.highGPU)
+		{
+			remove(velocityBG);
+			// cancelTween();
+			FlxG.camera.follow(camFollowPos, null, 0);
+		}
 
 		// magenta.scrollFactor.set();
 
@@ -157,9 +168,11 @@ class MainMenuState extends MusicBeatState {
 				case 2:
 					menuItem.setPosition(350, 315);
 				case 3:
-					menuItem.setPosition(420, 440);
+					menuItem.setPosition(490, 460);
 				case 4:
-					menuItem.setPosition(600, 570);
+					menuItem.setPosition(600, 600);
+				case 5:
+					menuItem.setPosition(-100, 700);
 			}
 		}
 
@@ -209,6 +222,24 @@ class MainMenuState extends MusicBeatState {
 	}
 	#end
 
+	#if ACHIEVEMENTS_ALLOWED
+	// Unlocks "Freaky on a Friday Night" achievement
+	function giveAchievementA() {
+		add(new AchievementObject('Secret_Song', camAchievement));
+		FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+		trace('Giving achievement "Secret_Song"');
+	}
+	#end
+
+	#if ACHIEVEMENTS_ALLOWED
+	// Unlocks "Freaky on a Friday Night" achievement
+	function giveAchievementUi() {
+		add(new AchievementObject('MainMenuUi', camAchievement));
+		FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+		trace('Giving achievement "MainMenuUi"');
+	}
+	#end
+
 	var selectedSomethin:Bool = false;
 
 	override function update(elapsed:Float) {
@@ -239,7 +270,19 @@ class MainMenuState extends MusicBeatState {
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				MusicBeatState.switchState(new TitleState());
 			}
-			if (FlxG.keys.justPressed.F7) {
+			if (FlxG.keys.justPressed.F7) {		
+				PlatformUtil.sendWindowsNotification("Secret Song Complete", "Your Open The Secret Song 0w0 \n
+don't cheating -w-''", 0);
+				camGame.shake(0.005, 0.1);
+				#if ACHIEVEMENTS_ALLOWED
+				// Achievements.loadAchievement();
+				var achieveIDsong:Int = Achievements.getAchievementIndex('Secret_Song');
+				if (!Achievements.isAchievementUnlocked(Achievements.achievementsStuff[achieveIDsong][2])) { 
+				Achievements.achievementsMap.set(Achievements.achievementsStuff[achieveIDsong][2], true);
+				giveAchievementA();
+				ClientPrefs.saveSettings();
+				}
+				#end
 				FlxG.camera.flash(FlxColor.CYAN, 1);
 				FlxG.mouse.visible = true;
 				PlayState.SONG = Song.loadFromJson('HELL-ON', 'HELL-ON');
@@ -247,13 +290,21 @@ class MainMenuState extends MusicBeatState {
 				LoadingState.loadAndSwitchState(new PlayState());
 			}
 			if (FlxG.keys.justPressed.F10) {
+				#if ACHIEVEMENTS_ALLOWED
+					var mainMenuUiID:Int = Achievements.getAchievementIndex('MainMenuUi');
+					if (!Achievements.isAchievementUnlocked(Achievements.achievementsStuff[mainMenuUiID][2])) { // It's a mainmenuui weeeeeeeeeeeeeeeeee again
+					Achievements.achievementsMap.set(Achievements.achievementsStuff[mainMenuUiID][2], true);
+					giveAchievementUi();
+					ClientPrefs.saveSettings();
+				}
+				#end
 				FlxG.sound.play(Paths.sound('confirmMenu'));
 				MusicBeatState.switchState(new MainMenuUi());
 			}
 
 			if (controls.ACCEPT) {
 				if (optionShit[curSelected] == 'Discord') {
-					CoolUtil.browserLoad('https://discord.gg/tMAwuMJx');
+					CoolUtil.browserLoad('https://discord.gg/H3pfRB6x');
 					MusicBeatState.switchState(new MainMenuState());
 				} else if (optionShit[curSelected] == 'Quit') {
 					FlxG.sound.music.stop();
@@ -290,9 +341,6 @@ class MainMenuState extends MusicBeatState {
 									case 'mods':
 										MusicBeatState.switchState(new ModsMenuState());
 									#end
-									// case 'Gallery':
-									// 	FlxG.sound.play(Paths.sound('GallerySound'));
-									// 	MusicBeatState.switchState(new GallerySubState());
 									case 'awards':
 										MusicBeatState.switchState(new AchievementsMenuState());
 									case 'credits':
@@ -323,6 +371,7 @@ class MainMenuState extends MusicBeatState {
 		});
 	}
 
+
 	function changeItem(huh:Int = 0) {
 		curSelected += huh;
 
@@ -345,5 +394,7 @@ class MainMenuState extends MusicBeatState {
 				spr.centerOffsets();
 			}
 		});
+
+	
 	}
 }

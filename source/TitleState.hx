@@ -47,6 +47,7 @@ typedef TitleData =
 	gfx:Float,
 	gfy:Float,
 	backgroundSprite:String,
+	bgStartingGame:String,
 	bpm:Int
 }
 class TitleState extends MusicBeatState
@@ -56,6 +57,7 @@ class TitleState extends MusicBeatState
 	public static var volumeUpKeys:Array<FlxKey> = [FlxKey.NUMPADPLUS, FlxKey.PLUS];
 
 	public static var initialized:Bool = false;
+	var colorchange:Array<FlxColor> = [0xFF33FFFF, 0xFF00F3FF, 0x00330FFF];
 
 	var blackScreen:FlxSprite;
 	var credGroup:FlxGroup;
@@ -226,6 +228,7 @@ class TitleState extends MusicBeatState
 	var danceLeft:Bool = false;
 	var titleText:FlxSprite;
 	var swagShader:ColorSwap = null;
+	var zoomTween:FlxTween;
 
 	function startIntro()
 	{
@@ -257,12 +260,25 @@ class TitleState extends MusicBeatState
 			}
 		}
 
+		if(zoomTween != null)
+			zoomTween = FlxTween.tween(FlxG.camera, {zoom: 1}, 1, {ease: FlxEase.circOut, onComplete: function(twn:FlxTween)
+				{
+					zoomTween = null;
+				}
+			});
+
+		FlxG.autoPause = true;
 		Conductor.changeBPM(titleJSON.bpm);
 		persistentUpdate = true;
+
+		var blackscreenagain:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		blackscreenagain.screenCenter();
+		add(blackscreenagain);
 
 		var bg:FlxSprite = new FlxSprite();
 		bg.loadGraphic(Paths.image('StartingGame/Installation'));
 		bg.screenCenter();
+		// bg.color = FlxColor.interpolate(colorchange[1], colorchange[2]);
 
 		// bg.antialiasing = ClientPrefs.globalAntialiasing;
 		// bg.setGraphicSize(Std.int(bg.width * 0.6));
@@ -270,10 +286,10 @@ class TitleState extends MusicBeatState
 
 		logoBl = new FlxSprite(titleJSON.titlex, titleJSON.titley);
 		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
-		logoBl.screenCenter(X);
+		logoBl.screenCenter();
 
 		logoBl.antialiasing = ClientPrefs.globalAntialiasing;
-		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
+		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, true);
 		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
 		// logoBl.screenCenter();
@@ -357,6 +373,8 @@ class TitleState extends MusicBeatState
 			titleText.animation.addByPrefix('idle', "Press Enter to Begin", 24);
 			titleText.animation.addByPrefix('press', "ENTER PRESSED", 24);
 		}
+
+
 		
 		titleText.antialiasing = ClientPrefs.globalAntialiasing;
 		titleText.animation.play('idle');
@@ -377,7 +395,13 @@ class TitleState extends MusicBeatState
 		textGroup = new FlxGroup();
 
 		blackScreen = new FlxSprite();
-		blackScreen.loadGraphic(Paths.image('StartingGame/Installation'));
+		blackScreen.loadGraphic(titleJSON.bgStartingGame + Paths.image('StartingGame/Installation'));
+		if(ClientPrefs.highGPU)
+		{
+			blackScreen.visible = false;
+			// ngSpr.visible = false;
+			blackscreenagain.visible = false;
+		}
 		credGroup.add(blackScreen);
 
 		credTextShit = new Alphabet(0, 0, "", true);
@@ -528,7 +552,7 @@ class TitleState extends MusicBeatState
 
 							FlxG.sound.play(Paths.sound('ToggleJingle'));
 
-							var black:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+							var black:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.CYAN);
 							black.alpha = 0;
 							add(black);
 
@@ -590,7 +614,7 @@ class TitleState extends MusicBeatState
 		if(textGroup != null && credGroup != null) {
 			var coolText:Alphabet = new Alphabet(0, 0, text, true);
 			coolText.screenCenter(X);
-			coolText.color =  0x1900FF;
+			coolText.color = FlxColor.PINK;
 			coolText.y += (textGroup.length * 60) + 200 + offset;
 			credGroup.add(coolText);
 			textGroup.add(coolText);

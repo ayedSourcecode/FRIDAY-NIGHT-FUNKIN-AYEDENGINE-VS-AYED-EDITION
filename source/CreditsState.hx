@@ -31,6 +31,8 @@ class CreditsState extends MusicBeatState
 	private var iconArray:Array<AttachedSprite> = [];
 	private var creditsStuff:Array<Array<String>> = [];
 
+	var leftSelection:FlxSprite;
+	var rightSelection:FlxSprite;
 	var logoBl:FlxSprite;
 	var bg:FlxSprite;
 	var descText:FlxText;
@@ -49,16 +51,6 @@ class CreditsState extends MusicBeatState
 		
 		FlxG.sound.playMusic(Paths.music('MusicCredits'));
 
-		logoBl = new FlxSprite(500, 0);
-		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
-
-		logoBl.antialiasing = ClientPrefs.globalAntialiasing;
-		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, true);
-		add(logoBl);
-		logoBl.animation.play('bump');
-		logoBl.updateHitbox();
-		// logoBl.screenCenter();
-		// logoBl.color = FlxColor.BLACK;
 		
 
 		persistentUpdate = true;
@@ -66,7 +58,18 @@ class CreditsState extends MusicBeatState
 		bg.loadGraphic(Paths.image('menuCredits'));
 		add(bg);
 		bg.screenCenter();
-		
+
+		logoBl = new FlxSprite(0, 0);
+		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
+
+		logoBl.antialiasing = ClientPrefs.globalAntialiasing;
+		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, true);
+		// add(logoBl);
+		logoBl.animation.play('bump');
+		logoBl.updateHitbox();
+		// logoBl.screenCenter();
+		// logoBl.color = FlxColor.BLACK;
+
 		grpOptions = new FlxTypedGroup<Alphabet>();
 		add(grpOptions);
 
@@ -101,14 +104,18 @@ class CreditsState extends MusicBeatState
 		var pisspoop:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
 			['Vs ayed/AYED ENGINE'],
 
+			['superpowers04', 'superpowers', 'CODER MAIN #2', 'https://gamebanana.com/members/1622031', '8300FF'],
 			['ayedFNFmaker', 'ayed', 'CODER AND CHARTER AND MUSICAL AND ARTIST ALSO THE OWNER #1', 'https://twitter.com/ayedfnfMaker', '0000FF'],
+			['SOZY', 'SOZY', 'idea of ayed engine and composer', '???', 'FF00FF'],
 			['AsyPryo', 'AsyPryo', 'THE OWNER #2', 'https://www.youtube.com/channel/UC_g6bbr9PoIGGalD4Cv5RwA', '00F3FF'],
+			// ['sonk plays', 'sonk plays', 'Animator', 'https://www.youtube.com/channel/UCnl7NAYXe6UZ7UW0dF9GBdw', '9C00D2'],
+			['Ethan Brimish', 'Ethan Brimish', 'Edit Charted And Event', 'https://www.youtube.com/@EthanBrimish653', 'FF00EC'],
 			['Ezra TigerYT', 'Ezra', 'composer', 'https://www.youtube.com/channel/UCy1CBd2dvVcp-iy7SfV5X4A', 'FF6006'],
 			['XxSussy Baka', 'Xxsans', 'Best Mother also Owner', 'https://www.youtube.com/@xxsansteamfell9378', 'C10A0A'],
-			['Banley', 'Banley', 'new helping mods', 'https://www.youtube.com/channel/UCm6oCNG6VLpd604VzfWDwbA', 'F0C8F0'],
+			// ['Banley', 'Banley', 'new helping mods', 'https://www.youtube.com/channel/UCm6oCNG6VLpd604VzfWDwbA', 'F0C8F0'],
+			['Zero', 'Zero', 'Making Cover FNF on ayed singing and moree', 'idk', 'FF00F0'],
 			['BadGuy', 'BadGuy', 'Convert chromatic on DWP', '', '33FF71'],
-			['RedTheAngryBird', 'RedTheAngryBird', 'The compose', 'https://www.youtube.com/channel/UCz6O1svtIq4YJUq2S-mTEiw', 'FF0000'],
-			['bamibo', 'bamibo', 'bamibo my bestie helping me', 'https://www.youtube.com/channel/UCgT7h6VOIALR6I2IRXHr2tA', 'FF00EC'],
+			// ['RedTheAngryBird', 'RedTheAngryBird', 'The compose', 'https://www.youtube.com/channel/UCz6O1svtIq4YJUq2S-mTEiw', 'FF0000'],
 			['Wastanky', 'Wastanky', 'BEST ARTIST', 'https://www.youtube.com/@WasTankyis_Stupid', 'FF00F7'],
 			['NiterhaleReal', 'NiterhaleReal', 'ARTIST', 'https://www.youtube.com/@niterhalereal_offical', '9C00D2'],
 			['BK', 'BK', 'Chromatic', 'https://twitter.com/BK_reel', '33FF71'],
@@ -124,6 +131,7 @@ class CreditsState extends MusicBeatState
 			creditsStuff.push(i);
 		}
 	
+
 		for (i in 0...creditsStuff.length)
 		{
 
@@ -131,7 +139,7 @@ class CreditsState extends MusicBeatState
 
 			var isSelectable:Bool = !unselectableCheck(i);
 			var optionText:Alphabet = new Alphabet(FlxG.width / 2, 300, creditsStuff[i][0], !isSelectable);
-			optionText.color = 0xFFFFFFFF;
+			// optionText.color = 0xFFFFFFFF;
 			optionText.isMenuItem = true;
 			optionText.targetY = i;
 			optionText.changeX = false;
@@ -177,6 +185,23 @@ class CreditsState extends MusicBeatState
 		bg.color = getCurrentBGColor();
 		intendedColor = bg.color;
 		changeSelection();
+
+		leftSelection = new FlxSprite(0);
+		leftSelection.frames = Paths.getSparrowAtlas('campaign_menu_UI_assets');
+		leftSelection.screenCenter(Y);
+		add(leftSelection);
+		leftSelection.animation.play('leftArrow');
+
+		rightSelection = new FlxSprite(1225, 320);
+		// rightSelection.screenCenter(Y);
+		rightSelection.frames = Paths.getSparrowAtlas('campaign_menu_UI_assets');
+		leftSelection.animation.addByPrefix('leftArrow', "arrow left0000", 24);
+		rightSelection.animation.addByPrefix('rightArrow', "arrow right0000", 24);
+		leftSelection.animation.addByPrefix('leftPush', "arrow push left0000", 24);
+		rightSelection.animation.addByPrefix('rightPush', "arrow push right0000", 24);
+		rightSelection.animation.play('rightArrow');
+		add(rightSelection);
+
 		super.create();
 	}
 
@@ -198,6 +223,8 @@ class CreditsState extends MusicBeatState
 
 				var upP = controls.UI_UP_P;
 				var downP = controls.UI_DOWN_P;
+				var leftP = controls.UI_LEFT_P;
+				var rightP = controls.UI_LEFT_P;
 
 				if (upP)
 				{
@@ -220,6 +247,18 @@ class CreditsState extends MusicBeatState
 					{
 						changeSelection((checkNewHold - checkLastHold) * (controls.UI_UP ? -shiftMult : shiftMult));
 					}
+				}
+
+				if(controls.UI_LEFT)
+				{
+					// FlxG.sound.play(Paths.sound('confirmMenu'));
+					leftSelection.animation.play('leftPush');
+					MusicBeatState.switchState(new CreditsFnfState());	
+				}
+				if (controls.UI_RIGHT)
+				{
+					rightSelection.animation.play('rightPush');
+					MusicBeatState.switchState(new CreditsFnfState());
 				}
 			}
 

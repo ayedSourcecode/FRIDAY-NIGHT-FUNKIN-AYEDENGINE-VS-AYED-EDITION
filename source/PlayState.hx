@@ -97,6 +97,7 @@ class PlayState extends MusicBeatState
 
 	//event variables
 	private var isCameraOnForcedPos:Bool = false;
+	private var camAchievement:FlxCamera;
 
 	#if (haxe >= "4.0.0")
 	public var boyfriendMap:Map<String, Boyfriend> = new Map();
@@ -188,8 +189,13 @@ class PlayState extends MusicBeatState
 	private var timeBarBG:AttachedSprite;
 	public var timeBar:FlxBar;
 
+	// public var infoSong:FlxTimer;
+	public var bgInfoSong:FlxSprite;
+	public var textInfoSong:FlxText;
+
 	public var ratingsData:Array<Rating> = [];
 	public var sicks:Int = 0;
+	public var combos:Int = 0;
 	public var goods:Int = 0;
 	public var bads:Int = 0;
 	public var shits:Int = 0;
@@ -277,6 +283,7 @@ class PlayState extends MusicBeatState
 	public static var campaignMisses:Int = 0;
 	public static var seenCutscene:Bool = false;
 	public static var deathCounter:Int = 0;
+	private static var colorShit:Array<FlxColor> = [0x00FF00, 0xEA00FF, 0xCB00FF, 0x00FFFF];
 
 	public var defaultCamZoom:Float = 1.05;
 
@@ -357,6 +364,12 @@ class PlayState extends MusicBeatState
 		//Ratings
 		ratingsData.push(new Rating('sick')); //default rating
 
+		var rating:Rating = new Rating('combos');
+		rating.ratingMod = 0.8;
+		rating.score = 300;
+		rating.noteSplash = true;
+		ratingsData.push(rating);
+
 		var rating:Rating = new Rating('good');
 		rating.ratingMod = 0.7;
 		rating.score = 200;
@@ -404,6 +417,8 @@ class PlayState extends MusicBeatState
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camHUD, false);
 		FlxG.cameras.add(camOther, false);
+		camAchievement = new FlxCamera();
+		camAchievement.bgColor.alpha = 0;
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 
 		FlxG.cameras.setDefaultDrawTarget(camGame, true);
@@ -580,6 +595,12 @@ class PlayState extends MusicBeatState
 					add(streetBehind);
 				}
 
+				if(!ClientPrefs.highGPU)
+				{
+					remove(phillyTrain);
+					remove(trainSound);
+				}
+
 				phillyTrain = new BGSprite('philly/train', 2000, 360);
 				add(phillyTrain);
 
@@ -683,6 +704,21 @@ class PlayState extends MusicBeatState
 
 				var evilSnow:BGSprite = new BGSprite('christmas/evilSnow', -200, 700);
 				add(evilSnow);
+
+			case 'BGTONIGHT': // a just for undistor lol
+			{
+				GameOverSubstate.deathSoundName = 'fnf_loss_sfx';
+				GameOverSubstate.loopSoundName = 'gameOver';
+				GameOverSubstate.endSoundName = 'gameOverEnd';
+				GameOverSubstate.characterName = 'AEXx die';
+
+			var bgNIGHTto:FlxSprite = new FlxSprite(-100, -300);
+			bgNIGHTto.loadGraphic(Paths.image('BackGround/NightBG/BGNIGHT'));
+			bgNIGHTto.screenCenter();
+			add(bgNIGHTto);
+
+			bgNIGHTto.antialiasing = false;
+			}
 
 			case 'school': //Week 6 - Senpai, Roses
 				GameOverSubstate.deathSoundName = 'fnf_loss_sfx-pixel';
@@ -1059,6 +1095,26 @@ class PlayState extends MusicBeatState
 		add(strumLineNotes);
 		add(grpNoteSplashes);
 
+		new FlxTimer().start(5, infoSongEnd, 3);
+		// new FlxTimer().start(5, infoSongStart, 1);
+		bgInfoSong = new FlxSprite(-250, 0);
+		bgInfoSong.makeGraphic(250, 75, FlxColor.PURPLE);
+		bgInfoSong.alpha = 1;
+		add(bgInfoSong);
+		textInfoSong = new FlxText(bgInfoSong.x, bgInfoSong.y, 0, SONG.song + '', 25);
+		textInfoSong.setFormat(Paths.font("vcr.ttf"), 25);
+		textInfoSong.color = FlxColor.BLUE;
+		add(textInfoSong);
+		FlxTween.tween(bgInfoSong, { x:0, y:0 }, 1);
+		FlxTween.tween(textInfoSong, { x: 0, y: 0}, 1, { type: ONESHOT });
+
+
+		if(ClientPrefs.hideTimeNum)
+		{
+			timeTxt.visible = false;
+		}
+		
+
 		if(ClientPrefs.timeBarType == 'Song Name')
 		{
 			timeTxt.size = 20;
@@ -1143,19 +1199,25 @@ class PlayState extends MusicBeatState
 		var iconP3:HealthIcon = new HealthIcon(dad.healthIcon, false);
 		iconP3.y = healthBar.y - 75;
 		iconP3.visible = !ClientPrefs.hideHud;
-		iconP3.alpha = ClientPrefs.healthBarAlpha;
+		iconP3.alpha = ClientPrefs.healthBarAlpha;// in next update ???
 		// add(iconP3);
+
+		if(ClientPrefs.highGPU)
+		{
+			remove(iconP1);
+			remove(iconP2);
+		}
 
 		reloadHealthBarColors();
 
-		scoreTxt = new FlxText(0, healthBarBG.y + 36, FlxG.width, "", 20);
-		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreTxt = new FlxText(0, healthBarBG.y + 36, FlxG.width, "", 15);
+		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.GREEN, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
 		scoreTxt.visible = !ClientPrefs.hideHud;
 		add(scoreTxt);
 
-		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "MODS BY AYED", 32);
+		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "RolePlay=>BotPlay", 32);
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.BLUE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		botplayTxt.scrollFactor.set();
 		botplayTxt.borderSize = 1.25;
@@ -1163,6 +1225,8 @@ class PlayState extends MusicBeatState
 		add(botplayTxt);
 		if(ClientPrefs.downScroll) {
 			botplayTxt.y = timeBarBG.y - 78;
+			// bgInfoSong.y = 100;
+			// textInfoSong.y = 100;
 		}
 
 		strumLineNotes.cameras = [camHUD];
@@ -1175,6 +1239,8 @@ class PlayState extends MusicBeatState
 		// iconP3.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
 		botplayTxt.cameras = [camHUD];
+		bgInfoSong.cameras = [camHUD];
+		textInfoSong.cameras = [camHUD];
 		timeBar.cameras = [camHUD];
 		timeBarBG.cameras = [camHUD];
 		timeTxt.cameras = [camHUD];
@@ -1182,13 +1248,47 @@ class PlayState extends MusicBeatState
 
 		if (SONG.song == 'hell-on')
 			{
+				GameOverSubstate.deathSoundName = 'fnf_loss_sfx';
+				GameOverSubstate.loopSoundName = 'gameOver';
+				GameOverSubstate.endSoundName = 'gameOverEnd';
+				GameOverSubstate.characterName = 'bf-dead';
+
 				remove(timeTxt);
 			}
 
-		if (songName == 'saddest')
+		if (SONG.song == 'Saddest')
 			{
-				SaddestFunction();
+				GameOverSubstate.deathSoundName = 'fnf_loss_sfx';
+				GameOverSubstate.loopSoundName = 'gameOver';
+				GameOverSubstate.endSoundName = 'gameOverEnd';
+				GameOverSubstate.characterName = 'ezra_dead';
+				// saddestFunction();
 			}
+		if (SONG.song == 'HeartBurn')
+		{
+				GameOverSubstate.deathSoundName = 'fnf_loss_sfx';
+				GameOverSubstate.loopSoundName = 'gameOver';
+				GameOverSubstate.endSoundName = 'gaSSmeOverEnd';
+				GameOverSubstate.characterName = 'PlayableGFV2';
+
+				bgInfoSong.color = FlxColor.PINK;
+				// bgInfoSong.color = FlxColor.interpolate(colorShit[3], colorShit[4]);
+		}
+
+		if (SONG.song == 'UNDISTOR-REMIX')
+		{
+				GameOverSubstate.deathSoundName = 'fnf_loss_sfx';
+				GameOverSubstate.loopSoundName = 'gameOver';
+				GameOverSubstate.endSoundName = 'gameOverEnd';
+				GameOverSubstate.characterName = 'PlayableGFV2';
+			FlxTween.tween(dad, {y: dad.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG});
+			FlxTween.tween(camHUD, {y: camHUD.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG});
+
+			FlxTween.tween(camHUD, {y: -100}, 1.4, {ease: FlxEase.expoInOut});
+			FlxTween.tween(camHUD, {y: -30}, 1.4, {ease: FlxEase.expoInOut});
+		
+			PauseSubState.menuItemsOG = ['Resume', 'Toggle Botplay'];
+		}
 
 		// if (SONG.song == 'South')
 		// FlxG.camera.alpha = 0.7;
@@ -1463,6 +1563,14 @@ class PlayState extends MusicBeatState
 		return value;
 	}
 
+	function infoSongEnd(timer:FlxTimer)
+	{
+		FlxTween.tween(bgInfoSong, {x:-300, y:0}, 1);
+		FlxTween.tween(textInfoSong, { x: -300, y: 0}, 1, { type: ONESHOT });
+		//remove(bgInfoSong);
+		// remove(textInfoSong);
+	}
+
 	function set_playbackRate(value:Float):Float
 	{
 		if(generatedMusic)
@@ -1568,7 +1676,7 @@ class PlayState extends MusicBeatState
 		#end
 	}
 
-	private function SaddestFunction()
+	function saddestFunction()
 	{
 		if (FlxG.keys.justPressed.SPACE)
 		{ 
@@ -2244,12 +2352,6 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	private function EndSong()
-	{
-		remove(timeTxt);
-		MusicBeatState.switchState(new CreditsState());
-		// MusicBeatState.switchState(new EndModsState());
-	}
 	public function addBehindGF(obj:FlxObject)
 	{
 		insert(members.indexOf(gfGroup), obj);
@@ -2300,11 +2402,12 @@ class PlayState extends MusicBeatState
 
 	public function updateScore(miss:Bool = false)
 	{
-		scoreTxt.text = 'Score: ' + songScore
+		scoreTxt.text = 'AE Version: ' + MainMenuState.AyedEngineVersion
+		+ ' ||| Score: ' + songScore
 		+ ' ||| Combo Broke: ' + songMisses
 		+ ' ||| Rating: ' + ratingName
-		+ (ratingName != '?' ? ' (${Highscore.floorDecimal(ratingPercent * 100, 2)}%) - $ratingFC' : ''
-		+ ' ||| VERSION AYED ENGINE: V1.5');
+		+ (ratingName != '?' ? ' (${Highscore.floorDecimal(ratingPercent * 100, 2)}%) - $ratingFC' : '');
+		
 		scoreTxt.color = FlxColor.CYAN;
 
 		if(ClientPrefs.scoreZoom && !miss && !cpuControlled)
@@ -2863,6 +2966,21 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
+		if (SONG.song == 'UNDISTOR-REMIX')
+			{
+				if (FlxG.keys.justPressed.SPACE)
+					{
+						dad.playAnim('shoot');
+						boyfriend.playAnim('dodge');
+					}
+			}
+		if (SONG.song == 'Saddest')
+		{
+			if (FlxG.mouse.pressed)
+				{
+					boyfriend.playAnim('hey');
+				}
+		}
 		if (FlxG.keys.justPressed.NINE)
 		{
 			iconP1.swapOldIcon();
@@ -3036,6 +3154,14 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.anyJustPressed(debugKeysChart) && !endingSong && !inCutscene)
 		{
 			// add(cheatinglol);
+			#if ACHIEVEMENTS_ALLOWED
+			var cheatingID:Int = Achievements.getAchievementIndex('Cheating');
+			if (!Achievements.isAchievementUnlocked(Achievements.achievementsStuff[cheatingID][2])) { // you cheating weeeeeeeeeeeeeeeeeeeeeee lol
+			Achievements.achievementsMap.set(Achievements.achievementsStuff[cheatingID][2], true);
+			cheatingAchievements();
+			ClientPrefs.saveSettings();
+			}
+			#end
 			openChartEditor();
 		}
 
@@ -3319,6 +3445,15 @@ class PlayState extends MusicBeatState
 		setOnLuas('botPlay', cpuControlled);
 		callOnLuas('onUpdatePost', [elapsed]);
 	}
+
+	#if ACHIEVEMENTS_ALLOWED
+	function cheatingAchievements()
+	{
+		add(new AchievementObject('Cheating', camAchievement));
+		FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+		trace('Giving achievement "Cheating"');
+	}
+	#end
 
 	function openPauseMenu()
 	{
@@ -3894,23 +4029,56 @@ class PlayState extends MusicBeatState
 		}
 		if (SONG.song == 'undistor') 
 			{
-				Achievements.unlockAchievement('FINISH_AYED_ENGINE');
-				// return FINISH_AYED_ENGINE;
-
+				
 				FlxG.sound.play(Paths.sound('confirmMenu'), 1);
 				FlxG.mouse.visible = true;
 				MusicBeatState.switchState(new EndingState());
+			}
+		if (SONG.song == 'UNDISTOR-REMIX') 
+			{
+				#if ACHIEVEMENTS_ALLOWED
+				Achievements.unlockAchievement('FINISH_AYED_ENGINE');
+				Achievements.isAchievementUnlocked('FINISH_AYED_ENGINE');
+				ClientPrefs.saveSettings();
+				#end
+				PauseSubState.menuItemsOG = ['Resume', 'Options', 'Restart Song', 'Change Difficulty', 'Exit to menu'];
+
+				// FlxG.sound.play(Paths.sound('confirmMenu'), 1);
+				FlxG.mouse.visible = true;
+				MusicBeatState.switchState(new EndingState());
+
+
 			}
 
 	}
 
 
+
 	public var transitioning = false;
 	public function endSong():Void
 	{
+		if (SONG.song == 'hell-on')
+		{
+			// FreeplayState.addSong('hell-on', 8, 'Dad', FlxColor.CYAN);
+		}
 		if (SONG.song == 'undistor') 
 		{
 			// FlxG.sound.play(Paths.sound('confirmMenu'), 1);
+			FlxG.mouse.visible = true;
+			MusicBeatState.switchState(new EndingState());
+		}
+		if (SONG.song == 'UNDISTOR-REMIX') 
+		{
+			// FlxG.sound.play(Paths.sound('confirmMenu'), 1);
+			#if ACHIEVEMENTS_ALLOWED
+			var endSongID:Int = Achievements.getAchievementIndex('FINISH_AYED_ENGINE');
+			if (!Achievements.isAchievementUnlocked(Achievements.achievementsStuff[endSongID][2])) { // it's end ayed engine weeeeeeeeeeeeeeeeee
+				Achievements.achievementsMap.set(Achievements.achievementsStuff[endSongID][2], true);
+				giveAchievement();
+				ClientPrefs.saveSettings();
+			}
+			#end
+			PauseSubState.menuItemsOG = ['Resume', 'Options', 'Restart Song', 'Change Difficulty', 'Exit to menu'];
 			FlxG.mouse.visible = true;
 			MusicBeatState.switchState(new EndingState());
 		}
@@ -3958,6 +4126,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 		#end
+
 
 		var ret:Dynamic = callOnLuas('onEndSong', [], false);
 		if(ret != FunkinLua.Function_Stop && !transitioning) {
@@ -4081,6 +4250,15 @@ class PlayState extends MusicBeatState
 	}
 	#end
 
+	#if ACHIEVEMENTS_ALLOWED
+	function giveAchievement()
+	{
+		add(new AchievementObject('FINISH_AYED_ENGINE', camAchievement));
+		FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+		trace('Giving achievement "FINISH_AYED_ENGINE"');
+	}
+	#end
+
 	public function KillNotes() {
 		while(notes.length > 0) {
 			var daNote:Note = notes.members[0];
@@ -4113,6 +4291,7 @@ class PlayState extends MusicBeatState
 		}
 
 		Paths.image(pixelShitPart1 + "sick" + pixelShitPart2);
+		Paths.image(pixelShitPart1 + "combo" + pixelShitPart2);
 		Paths.image(pixelShitPart1 + "good" + pixelShitPart2);
 		Paths.image(pixelShitPart1 + "bad" + pixelShitPart2);
 		Paths.image(pixelShitPart1 + "shit" + pixelShitPart2);

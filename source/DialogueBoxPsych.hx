@@ -22,6 +22,7 @@ import openfl.utils.Assets;
 using StringTools;
 
 typedef DialogueCharacterFile = {
+	var bgdialogue:String;
 	var image:String;
 	var dialogue_pos:String;
 	var no_antialiasing:Bool;
@@ -197,7 +198,7 @@ class DialogueBoxPsych extends FlxSpriteGroup
 		bgFade = new FlxSprite(-500, -500).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.WHITE);
 		bgFade.scrollFactor.set();
 		bgFade.visible = true;
-		bgFade.alpha = 0;
+		bgFade.alpha = 1;
 		add(bgFade);
 
 		this.dialogueList = dialogueList;

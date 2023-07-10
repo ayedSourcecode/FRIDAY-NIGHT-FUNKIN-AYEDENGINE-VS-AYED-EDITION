@@ -26,6 +26,7 @@ typedef WeekFile =
 	var hideStoryMode:Bool;
 	var hideFreeplay:Bool;
 	var difficulties:String;
+	// var songby:String;
 }
 
 class WeekData {

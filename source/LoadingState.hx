@@ -65,11 +65,15 @@ class LoadingState extends MusicBeatState
 		LoadingAyedEngine.scrollFactor.set();
 		LoadingAyedEngine.screenCenter();
 
+		LoadingAyedEngine.visible = ClientPrefs.hideLoadingState;
+
 		loadBar = new FlxSprite(0, FlxG.height - 20).makeGraphic(FlxG.width, 10, 0xff00c200);
 		loadBar.screenCenter(X);
 		loadBar.antialiasing = ClientPrefs.globalAntialiasing;
 		add(loadBar);
 		add(loading);
+
+		loading.visible = ClientPrefs.hideLoadingState;
 		
 		initSongsManifest().onComplete
 		(
