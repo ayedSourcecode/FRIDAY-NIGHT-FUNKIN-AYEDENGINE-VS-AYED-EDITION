@@ -3895,7 +3895,7 @@ class PlayState extends MusicBeatState
 		if (SONG.song == 'undistor') 
 			{
 				Achievements.unlockAchievement('FINISH_AYED_ENGINE');
-				return FINISH_AYED_ENGINE;
+				// return FINISH_AYED_ENGINE;
 
 				FlxG.sound.play(Paths.sound('confirmMenu'), 1);
 				FlxG.mouse.visible = true;
