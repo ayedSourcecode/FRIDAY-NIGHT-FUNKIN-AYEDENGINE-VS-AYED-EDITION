@@ -47,9 +47,7 @@ class DiscordClient
 			state: null,
 			largeImageKey: 'iconOG',
 			smallImageKey: 'icon',
-			largeImageText: "ayed Engine",
-			button1Key: 'www.google.com',
-			button1Text: "LOL"
+			largeImageText: "ayed Engine"
 			// Button1Text: 'you wanna play mods',
 			// Button1URL: 'https://www.youtube.com/watch?v=SQl6uFQAuZU&t=84s'
 		});
@@ -91,8 +89,6 @@ class DiscordClient
 			largeImageText: "Ayed Engine Version: " + MainMenuState.AyedEngineVersion,
 			smallImageKey: 'icon',
 			smallImageText: 'AYED ENGINE ICON OG',
-			button1Key: 'www.google.com',
-			button1Text: "lol",
 			// Obtained times are in milliseconds so they are divided so Discord can use it
 			startTimestamp: Std.int(startTimestamp / 1000),
 			endTimestamp: Std.int(endTimestamp / 1000)
